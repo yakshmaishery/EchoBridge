@@ -1,0 +1,7 @@
+video{
+   /* width: 100vw; */
+   height: 80vh;
+   display: flex;
+   align-self: center;
+   justify-self: center;
+}

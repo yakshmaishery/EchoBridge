@@ -13,6 +13,7 @@
    import { io } from "socket.io-client";
    import { onMount } from "svelte";
     import ConnectionWIndow from "$lib/UserDashboardWindows/ConnectionWIndow.svelte";
+    import ShareScreenWindow from "$lib/UserDashboardWindows/ShareScreenWindow.svelte";
    let Window = "Home"
    let UserID = ""
 	let AnotherID = ""
@@ -170,6 +171,20 @@
                Swal.fire({icon:"info",title:`You got a message!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
             }
          }
+         if(msgtype == "ShareScreen"){
+            anotheruserscreen = "Share Screen"
+            Window="ShareScreen"
+         }
+         if(msgtype == "ShareScreenStop"){
+            anotheruserscreen = ""
+            videodata.srcObject=null
+            try{
+               if(document.fullscreenElement){
+                  document.exitFullscreen()
+               }
+            }
+            catch{}
+         }
       })
    })
 
@@ -213,6 +228,64 @@
 
       return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
    }
+
+   // Start Share Screen
+   async function ShareScreen() {
+      try{
+         let screenStream = await navigator.mediaDevices.getDisplayMedia({
+         audio: true,
+         video:{
+                width:{ideal:4096},
+                height:{ideal:2160}
+         }
+         }).catch((e) => {
+            if(e.name == "NotAllowedError"){
+              Swal.fire({icon:"warning",title:"Recording was cancelled",confirmButtonColor: "green"})
+            }
+            else{
+              Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+            }
+         })
+         if(screenStream){
+            // @ts-ignore
+            if(ConnectionType == "Peer"){
+               videodata.srcObject = screenStream
+               videodata.play()
+               peer.call(AnotherID,screenStream)
+               conn.send({type:"ShareScreen"})
+               ScreenOpen =true
+               const mediarecorder = new MediaRecorder(screenStream)
+               mediarecorder.start()
+               mediarecorder.addEventListener("stop",()=>{
+                  // LeaveConnection()
+                  conn.send({type:"ShareScreenStop"})
+                  ScreenOpen = false
+               })
+            }
+            else{
+               Swal.fire({icon:"error",title:"Share Screen is not supported in this connection type!",confirmButtonColor: "green"})
+            }
+         }
+      }
+      catch{
+         Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+      }
+   }
+
+   // Fetch the Stream of video
+   peer.on('call', function(call) {
+      call.answer()
+      call.on("stream",function(remoteStream:any) {
+         if(anotheruserscreen == "Share Screen"){
+            videodata.srcObject = remoteStream
+            videodata.play()
+         }
+         else{
+            // videodataCamera.srcObject = remoteStream
+            // videodataCamera.play()
+         }
+      })
+   })
  </script>
   <svelte:head>
    <title>EchoBridge</title>
@@ -230,6 +303,9 @@
       </div>
       <div style={`content-visibility:${Window=="videocall"?"auto":"hidden"}`}>
          <VideoChatWindow/>
+      </div>
+      <div style={`content-visibility:${Window=="ShareScreen"?"auto":"hidden"}`}>
+         <ShareScreenWindow bind:IsConnected bind:ScreenOpen bind:videodata on:ShareScreen={ShareScreen}/>
       </div>
       <div style={`content-visibility:${Window=="Tutorial"?"auto":"hidden"}`}>
          <TutorialWindow/>
