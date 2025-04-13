@@ -1,0 +1,148 @@
+<script lang="ts">
+   export let Window = ""
+
+   import {Home,MessageSquareMore,Video,CloudUpload,Sun,Moon,Landmark,Contact,Bell,Cable,Monitor} from '@lucide/svelte/icons'
+   import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+   import { toggleMode } from "mode-watcher";
+   import { Button } from "$lib/components/ui/button/index.js";
+   import '$lib/Styles/AppSliderCSS.css'
+   
+   // Menu items.
+   const items = [
+    {
+      title:"Home",
+      window:"Home",
+      icon:Home
+    }
+    ,{
+      title:"Chat",
+      window:"Chat",
+      icon:MessageSquareMore
+    }
+    ,{
+      title:"Video call",
+      window:"videocall",
+      icon:Video
+    }
+    ,{
+      title:"File Transfer",
+      window:"FileTransfer",
+      icon:CloudUpload
+    }
+    ,{
+      title:"Share Screen",
+      window:"ShareScreen",
+      icon:Monitor
+    }
+   ];
+   // Menu items.
+   const items1 = [
+    {
+      title:"Tutorial",
+      window:"Tutorial",
+      icon:Landmark
+    },
+    {
+      title:"Contact",
+      window:"Contact",
+      icon:Contact
+    },
+    {
+      title:"Notice",
+      window:"Notice",
+      icon:Bell
+    },
+    {
+      title:"Connection",
+      window:"ConnectionWindow",
+      icon:Cable
+    }
+   ];
+
+   function ChangeWindow(win:string){
+      document.title = `EchoBridge - ${win}`
+      Window = win
+   }
+  </script>
+  <Sidebar.Root>
+    <Sidebar.Header>
+      <Sidebar.Menu>
+        <Sidebar.MenuItem>
+          <a href="/" data-sveltekit-reload>
+          <div style="display: flex;align-items: center;gap: 20px;font-weight:bold;font-size:larger;cursor:pointer">
+            <img src="/Images/favicon.png" alt="App Logo" class="logo" width="30%" />EchoBridge
+          </div>
+          </a>
+        </Sidebar.MenuItem>
+      </Sidebar.Menu>
+    </Sidebar.Header>
+   <Sidebar.Content>
+   <!-- Dashboard Starts here -->
+    <Sidebar.Group>
+     <Sidebar.GroupLabel>Dashboard</Sidebar.GroupLabel>
+     <Sidebar.GroupContent>
+      <Sidebar.Menu>
+       {#each items as item (item.title)}
+        <Sidebar.MenuItem>
+         <Sidebar.MenuButton class={item.window == Window?"menuitemsselect":"menuitems"}>
+          {#snippet child({ props })}
+           <a {...props} style="cursor: pointer;" on:click={()=>{ChangeWindow(item.window)}}>
+            <item.icon />
+            <span>{item.title}</span>
+           </a>
+          {/snippet}
+         </Sidebar.MenuButton>
+        </Sidebar.MenuItem>
+       {/each}
+      </Sidebar.Menu>
+     </Sidebar.GroupContent>
+    </Sidebar.Group>
+    <!-- Dashboard Ends here -->
+    <!-- Settings Starts here -->
+    <Sidebar.Group>
+     <Sidebar.GroupLabel>Settings</Sidebar.GroupLabel>
+     <Sidebar.GroupContent>
+      <Sidebar.Menu>
+       <!-- {#each items as item (item.title)} -->
+        <Sidebar.MenuItem>
+         <div style="display: flex;align-items: center;gap: 10px;">
+            <Button onclick={toggleMode} variant="outline" size="icon">
+               <Sun
+                 class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+               />
+               <Moon
+                 class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+               />
+               <span class="sr-only">Toggle theme</span>
+             </Button>
+             Dark Mode
+         </div>
+        </Sidebar.MenuItem>
+       <!-- {/each} -->
+      </Sidebar.Menu>
+     </Sidebar.GroupContent>
+    </Sidebar.Group>
+    <!-- Settings Ends here -->
+    <!-- Settings Starts here -->
+    <Sidebar.Group>
+     <Sidebar.GroupLabel>About</Sidebar.GroupLabel>
+     <Sidebar.GroupContent>
+      <Sidebar.Menu>
+         {#each items1 as item (item.title)}
+         <Sidebar.MenuItem>
+          <Sidebar.MenuButton class={item.window == Window?"menuitemsselect":"menuitems"}>
+           {#snippet child({ props })}
+            <a {...props} style="cursor: pointer;" on:click={()=>{ChangeWindow(item.window)}}>
+             <item.icon />
+             <span>{item.title}</span>
+            </a>
+           {/snippet}
+          </Sidebar.MenuButton>
+         </Sidebar.MenuItem>
+        {/each}
+      </Sidebar.Menu>
+     </Sidebar.GroupContent>
+    </Sidebar.Group>
+    <!-- Settings Ends here -->
+   </Sidebar.Content>
+  </Sidebar.Root>

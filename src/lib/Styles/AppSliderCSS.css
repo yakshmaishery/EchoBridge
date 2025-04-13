@@ -1,0 +1,11 @@
+/* .menuitems{} */
+.menuitems:hover{
+   background-color: rgb(248, 151, 151);
+}
+.menuitemsselect:hover{
+   background-color: rgb(255, 0, 0);
+}
+.menuitemsselect{
+   background-color: rgb(255, 0, 0);
+   font-size: larger;
+}

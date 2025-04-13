@@ -1,0 +1,102 @@
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+ }
+
+ body {
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   background: linear-gradient(135deg, #1f1c2c, #928dab);
+   color: #fff;
+   padding: 2rem;
+ }
+
+ .container {
+   max-width: 900px;
+   margin: 0 auto;
+   text-align: center;
+   padding: 3rem 2rem;
+   background-color: rgba(255, 255, 255, 0.05);
+   border-radius: 20px;
+   box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+ }
+
+ .logo {
+   max-width: 100px;
+   margin-bottom: 1.5rem;
+ }
+
+ h1 {
+   font-size: 2.8rem;
+   margin-bottom: 1rem;
+ }
+
+ p {
+   font-size: 1.1rem;
+   color: #e0e0e0;
+   margin-bottom: 2rem;
+ }
+
+ .features {
+   font-size: 1.1rem;
+   line-height: 1.8;
+   margin-bottom: 2rem;
+ }
+
+ .highlight {
+   font-weight: bold;
+   color: #ffffff;
+ }
+
+ .start-button {
+   background-color: #ff4e50;
+   color: white;
+   border: none;
+   padding: 0.8rem 2rem;
+   font-size: 1rem;
+   border-radius: 30px;
+   cursor: pointer;
+   transition: background 0.3s ease;
+ }
+
+ .start-button:hover {
+   background-color: #ff6f61;
+ }
+
+ .why-choose {
+   text-align: left;
+   margin-top: 3rem;
+ }
+
+ .why-choose h2 {
+   font-size: 2rem;
+   margin-bottom: 1rem;
+   color: #fff;
+ }
+
+ .why-choose ul {
+   list-style: none;
+   padding: 0;
+ }
+
+ .why-choose li {
+   margin-bottom: 1rem;
+   padding-left: 1.2rem;
+   position: relative;
+ }
+
+ .why-choose li::before {
+   content: "✔";
+   color: #ff4e50;
+   position: absolute;
+   left: 0;
+ }
+
+ @media (max-width: 600px) {
+   h1 {
+     font-size: 2rem;
+   }
+   .why-choose h2 {
+     font-size: 1.5rem;
+   }
+ }
