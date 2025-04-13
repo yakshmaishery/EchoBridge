@@ -1,6 +1,7 @@
 <script lang="ts">
    export let AnotherID=""
    export let UserID=""
+   export let IsConnected = false
    import * as InputOTP from "$lib/components/ui/input-otp/index.js";
    import Button from "$lib/components/ui/button/button.svelte";
    import '$lib/Styles/HomeWindow.css'
@@ -30,8 +31,8 @@
    </div>
    <div>
        <button class="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md"
-       on:click={()=>{dispatch("ConnectwithUserFirst")}}>Connect</button>
+       on:click={()=>{dispatch("ConnectwithUserFirst")}} disabled={IsConnected}>Connect</button>
        <button class="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md"
-       on:click={()=>{dispatch("LeaveConnection")}}>Leave</button>
+       on:click={()=>{dispatch("LeaveConnection")}} disabled={!IsConnected}>Leave</button>
    </div>
 </div>

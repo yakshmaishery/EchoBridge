@@ -95,6 +95,9 @@
          if(data.AnotherID == UserID){
             ConversationLogMessages.push({Message:data.Message,MessageType:"Reciever",datetime:data.datetime,loginID:data.loginID})
             ConversationLogMessages = ConversationLogMessages
+            if(Window != "Chat"){
+               Swal.fire({icon:"info",title:`You got a message!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+            }
          }
       })
    })
@@ -102,25 +105,36 @@
    // Connect with another person
    function ConnectwithUserFirst(){
       debugger
-      AnotherID = AnotherID.toLowerCase()
-      conn = peer.connect(AnotherID)
-      conn.on("open",function(){
-         IsConnected = true
-         ConnectionType = "Peer"
-         conn.send({type:"text",message:"jhzxkdvbuyizxv"})
-         Swal.fire({icon:"success",title:"Connected successfully",confirmButtonColor: "green",timer:1500,showConfirmButton:false})
-      })
-      conn.on('error', (err:any) => {
-         Swal.fire({icon:"error",title:err.type,confirmButtonColor: "green"})
-      });
-      conn.on("iceStateChanged",(state:any)=>{
-         console.warn("iceStateChanged",state)
-      })
-      setTimeout(() => {
-         if(!IsConnected){
-            SocketConnectionInitiate()
+      if(AnotherID){
+         if(AnotherID.length==4){
+
+            AnotherID = AnotherID.toLowerCase()
+            conn = peer.connect(AnotherID)
+            conn.on("open",function(){
+               IsConnected = true
+               ConnectionType = "Peer"
+               conn.send({type:"text",message:"jhzxkdvbuyizxv"})
+               Swal.fire({icon:"success",title:"Connected successfully",confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+            })
+            conn.on('error', (err:any) => {
+               Swal.fire({icon:"error",title:err.type,confirmButtonColor: "green"})
+            });
+            conn.on("iceStateChanged",(state:any)=>{
+               console.warn("iceStateChanged",state)
+            })
+            setTimeout(() => {
+               if(!IsConnected){
+                  SocketConnectionInitiate()
+               }
+            }, 3000);
          }
-      }, 3000);
+         else{
+            Swal.fire({icon:"error",title:"another ID should be of 4 digit code",confirmButtonColor: "green",timer:1500,showConfirmButton:false})   
+         }
+      }
+      else{
+         Swal.fire({icon:"error",title:"another ID is mandatory!",confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+      }
    }
 
    // Initiate Socket Connection
@@ -152,6 +166,9 @@
          if(msgtype == "chat"){
             ConversationLogMessages.push({Message:data.chatdata.Message,MessageType:"Reciever",datetime:data.chatdata.datetime,loginID:data.chatdata.loginID})
             ConversationLogMessages = ConversationLogMessages
+            if(Window != "Chat"){
+               Swal.fire({icon:"info",title:`You got a message!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+            }
          }
       })
    })
@@ -206,7 +223,7 @@
      <Sidebar.Trigger />
      <!-- {@render children?.()} -->
       <div style={`content-visibility:${Window=="Home"?"auto":"hidden"}`}>
-         <HomeWindow bind:AnotherID bind:UserID on:ConnectwithUserFirst={ConnectwithUserFirst} on:LeaveConnection={LeaveConnection}/>
+         <HomeWindow bind:AnotherID bind:UserID on:ConnectwithUserFirst={ConnectwithUserFirst} on:LeaveConnection={LeaveConnection} bind:IsConnected/>
       </div>
       <div style={`content-visibility:${Window=="Chat"?"auto":"hidden"}`}>
          <ChatWindow bind:ConversationLogMessages bind:IsConnected bind:UserMessage on:SendMessage={SendMessage}/>
