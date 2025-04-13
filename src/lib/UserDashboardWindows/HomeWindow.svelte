@@ -18,7 +18,7 @@
       <p class="leading-7 [&:not(:first-child)]:mt-6">
          Enter the another ID
       </p>
-      <InputOTP.Root maxlength={4} bind:value={AnotherID}>
+      <InputOTP.Root maxlength={4} inputmode={"text"} bind:value={AnotherID}>
          {#snippet children({ cells })}
             <InputOTP.Group>
               {#each cells as cell (cell)}
