@@ -12,8 +12,11 @@
    import Swal from 'sweetalert2';
    import { io } from "socket.io-client";
    import { onMount } from "svelte";
-    import ConnectionWIndow from "$lib/UserDashboardWindows/ConnectionWIndow.svelte";
-    import ShareScreenWindow from "$lib/UserDashboardWindows/ShareScreenWindow.svelte";
+   import ConnectionWIndow from "$lib/UserDashboardWindows/ConnectionWIndow.svelte";
+   import ShareScreenWindow from "$lib/UserDashboardWindows/ShareScreenWindow.svelte";
+   import { Progress } from "$lib/components/ui/progress/index.js";
+   import * as Table from "$lib/components/ui/table/index.js";
+   import { Download } from "@lucide/svelte";
    let Window = "Home"
    let UserID = ""
 	let AnotherID = ""
@@ -185,6 +188,30 @@
             }
             catch{}
          }
+         if (msgtype === 'startFileTransfer') {
+            fileInfo[data.name] = { size: data.size, received: 0 };
+            receivedBuffers[data.name] = [];
+            Progressvalue=0
+         } 
+         else if (msgtype === 'chunkFileTransfer') {
+            receivedBuffers[data.name].push(data.data);
+            fileInfo[data.name].received += data.data.byteLength;
+            Progressvalue=fileInfo[data.name].received
+            Progressmax = fileInfo[data.name].size
+            // console.log(`Received ${fileInfo[data.name].received} of ${fileInfo[data.name].size}`);
+         } 
+         else if (msgtype === 'endFileTransfer') {
+            const received = new Blob(receivedBuffers[data.name]);
+            downloadfileList.push({filename:data.name,base64:URL.createObjectURL(received),filesize:Progressmax.toString(),datetime:new Date().toString()})
+            downloadfileList = downloadfileList
+            Progressmax = 0
+            Progressvalue = 0
+            delete receivedBuffers[data.name];
+            delete fileInfo[data.name];
+            if(Window!="File Transfer"){
+               Swal.fire({icon:"success",title:"You have received an file go to File Transfer!",confirmButtonColor: "green",showConfirmButton:false,timer:1500})
+            }
+         }
       })
    })
 
@@ -286,6 +313,77 @@
          }
       })
    })
+
+   function fileToBase64(file:any) {
+      return new Promise((resolve, reject) => {
+         const reader = new FileReader();
+         reader.readAsDataURL(file);  // This will give you a base64 encoded string
+         reader.onload = () => resolve(reader.result);
+         reader.onerror = error => reject(error);
+      });
+   }
+
+   function sendFile(file:any) {
+      const fileReader = new FileReader();
+      let offset = 0;
+
+      fileReader.onload = (e:any) => {
+         conn.send({
+            type: 'chunkFileTransfer',
+            name: file.name,
+            size: file.size,
+            data: e.target.result,
+            offset
+         });
+         offset += e.target.result.byteLength;
+         Progressvalue=offset
+         Progressmax = file.size
+         if (offset < file.size) {
+            readSlice(offset);
+         } else {
+            Progressmax = 0
+            Progressvalue = 0
+            conn.send({ type: 'endFileTransfer', name: file.name });
+            Swal.fire({icon:"success",title:"File transfer complete",confirmButtonColor: "green"})
+            // console.log('File transfer complete');
+         }
+      };
+
+      function readSlice(o:any) {
+         const slice = file.slice(o, o + CHUNK_SIZE);
+         fileReader.readAsArrayBuffer(slice);
+      }
+
+      conn.send({ type: 'startFileTransfer', name: file.name, size: file.size });
+      readSlice(0);
+   }
+
+   const filechange = async (e:any) =>{
+      console.warn(e.target.files)
+      if(e){
+         if(e.target){
+            if(e.target.files){
+               if(e.target.files.length>0){
+                  sendFile(e.target.files[0])
+                  try {
+                  let base64String:any = await fileToBase64(e.target.files[0]);
+                  downloadfileList.push({filename:e.target.files[0].name,base64:base64String,filesize:e.target.files[0].size,datetime:new Date().toString()})
+                  downloadfileList = downloadfileList
+               } catch (err) {
+                  console.error('Error converting file:', err);
+               }
+               }
+            }
+         }
+      }
+   }
+
+   const downloadfile = (filename:string,base64:string) =>{
+      const a = document.createElement('a');
+      a.href = base64;
+      a.download = filename;
+      a.click();
+   }
  </script>
   <svelte:head>
    <title>EchoBridge</title>
@@ -318,6 +416,47 @@
       </div>
       <div style={`content-visibility:${Window=="ConnectionWindow"?"auto":"hidden"}`}>
          <ConnectionWIndow bind:ConnectionType bind:IsConnected/>
+      </div>
+      <div style={`content-visibility:${Window=="FileTransfer"?"auto":"hidden"}`}>
+         <div class="px-10 py-3">
+            <input type="file" class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" on:change={(e)=>{filechange(e)}} />
+         </div>
+         {#if Progressmax != 0}
+            <Progress value={Progressvalue} max={Progressmax} class="w-[95%] mx-3" />
+         {/if}
+         <div class="px-10">
+            <Table.Root>
+               <Table.Caption></Table.Caption>
+               <Table.Header>
+                 <Table.Row>
+                   <Table.Head class="w-[100px]">File name</Table.Head>
+                   <Table.Head class="w-[100px]">File Size</Table.Head>
+                   <Table.Head class="">timestamp</Table.Head>
+                   <Table.Head class="text-right">download</Table.Head>
+                 </Table.Row>
+               </Table.Header>
+               <Table.Body>
+                 <!-- <Table.Row>
+                   <Table.Cell class="font-medium">ABC.pdf</Table.Cell>
+                   <Table.Cell class="text-right">
+                     <button class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" 
+                     disabled={!IsConnected}><Download/></button>
+                   </Table.Cell>
+                 </Table.Row> -->
+                 {#each downloadfileList as item}
+                  <Table.Row>
+                     <Table.Cell class="font-medium">{item.filename}</Table.Cell>
+                     <Table.Cell class="font-medium">{item.filesize} bytes</Table.Cell>
+                     <Table.Cell class="font-medium">{item.datetime}</Table.Cell>
+                     <Table.Cell class="text-right">
+                     <button class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" 
+                     disabled={!IsConnected} on:click={()=>{downloadfile(item.filename,item.base64)}}><Download/></button>
+                     </Table.Cell>
+                  </Table.Row>
+                 {/each}
+               </Table.Body>
+             </Table.Root>
+         </div>
       </div>
    </main>
  </Sidebar.Provider>
