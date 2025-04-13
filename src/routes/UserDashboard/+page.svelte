@@ -104,6 +104,36 @@
             }
          }
       })
+      socket.on('startFileTransferAnother', (data:any) => {
+         if(data.AnotherID == UserID){
+            fileInfo[data.name] = { size: data.size, received: 0 };
+            receivedBuffers[data.name] = [];
+            Progressvalue=0
+         }
+      })
+      socket.on('chunkFileTransferAnother', (data:any) => {
+         if(data.AnotherID == UserID){
+            receivedBuffers[data.name].push(data.data);
+            fileInfo[data.name].received += data.data.byteLength;
+            Progressvalue=fileInfo[data.name].received
+            Progressmax = fileInfo[data.name].size
+            // console.log(`Received ${fileInfo[data.name].received} of ${fileInfo[data.name].size}`);
+         }
+      })
+      socket.on('endFileTransferAnother', (data:any) => {
+         if(data.AnotherID == UserID){
+            const received = new Blob(receivedBuffers[data.name]);
+            downloadfileList.push({filename:data.name,base64:URL.createObjectURL(received),filesize:Progressmax.toString(),datetime:new Date().toString()})
+            downloadfileList = downloadfileList
+            Progressmax = 0
+            Progressvalue = 0
+            delete receivedBuffers[data.name];
+            delete fileInfo[data.name];
+            if(Window!="File Transfer"){
+               Swal.fire({icon:"success",title:"You have received an file go to File Transfer!",confirmButtonColor: "green",showConfirmButton:false,timer:1500})
+            }
+         }
+      })
    })
 
    // Connect with another person
@@ -328,13 +358,25 @@
       let offset = 0;
 
       fileReader.onload = (e:any) => {
-         conn.send({
-            type: 'chunkFileTransfer',
-            name: file.name,
-            size: file.size,
-            data: e.target.result,
-            offset
-         });
+         if(ConnectionType == "Peer"){
+            conn.send({
+               type: 'chunkFileTransfer',
+               name: file.name,
+               size: file.size,
+               data: e.target.result,
+               offset,
+            });
+         }
+         else{
+            socket.emit("chunkFileTransfer",{
+               type: 'chunkFileTransfer',
+               name: file.name,
+               size: file.size,
+               data: e.target.result,
+               offset,
+               AnotherID
+            })
+         }
          offset += e.target.result.byteLength;
          Progressvalue=offset
          Progressmax = file.size
@@ -343,7 +385,12 @@
          } else {
             Progressmax = 0
             Progressvalue = 0
-            conn.send({ type: 'endFileTransfer', name: file.name });
+            if(ConnectionType == "Peer"){
+               conn.send({ type: 'endFileTransfer', name: file.name });
+            }
+            else{
+               socket.emit("endFileTransfer",{ type: 'endFileTransfer', name: file.name,AnotherID })
+            }
             Swal.fire({icon:"success",title:"File transfer complete",confirmButtonColor: "green"})
             // console.log('File transfer complete');
          }
@@ -353,8 +400,12 @@
          const slice = file.slice(o, o + CHUNK_SIZE);
          fileReader.readAsArrayBuffer(slice);
       }
-
-      conn.send({ type: 'startFileTransfer', name: file.name, size: file.size });
+      if(ConnectionType == "Peer"){
+         conn.send({ type: 'startFileTransfer', name: file.name, size: file.size });
+      }
+      else{
+         socket.emit("startFileTransfer",{ type: 'startFileTransfer', name: file.name, size: file.size,AnotherID })
+      }
       readSlice(0);
    }
 
