@@ -324,8 +324,8 @@
          if(screenStream){
             // @ts-ignore
             if(ConnectionType == "Peer"){
-               videodata.srcObject = screenStream
-               videodata.play()
+               // videodata.srcObject = screenStream
+               // videodata.play()
                peer.call(AnotherID,screenStream)
                conn.send({type:"ShareScreen"})
                ScreenOpen =true
@@ -483,8 +483,8 @@
             CameraOpen = true
             // @ts-ignore
             peer.call(AnotherID,CameraStream)
-            videodataCamera.srcObject = CameraStream
-            videodataCamera.play()
+            // videodataCamera.srcObject = CameraStream
+            // videodataCamera.play()
             conn.send({type:"VideoCamera"})
             const mediarecorder = new MediaRecorder(CameraStream)
             mediarecorder.start()
