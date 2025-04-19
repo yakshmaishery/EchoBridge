@@ -8,6 +8,7 @@
    import { toggleMode } from "mode-watcher";
    import { Button } from "$lib/components/ui/button/index.js";
    import '$lib/Styles/AppSliderCSS.css'
+    import Swal from 'sweetalert2';
    
    // Menu items.
    const items = [
@@ -96,9 +97,15 @@
                 else if(item.window != "ShareScreen" && item.window != "videocall"){
                   ChangeWindow(item.window)
                 }
+                else{
+                  Swal.fire({icon:"error",title:`Current Connection type is not allowed for this feature to access.`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+                }
               }
               else if(item.window == "Home"){
                 ChangeWindow(item.window)
+              }
+              else{
+                Swal.fire({icon:"error",title:`You need to create connection first with another person!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
               }
             }}>
             <item.icon />
