@@ -3,7 +3,7 @@
    export let IsConnected = false
    export let ConnectionType = ""
 
-   import {Home,MessageSquareMore,Video,CloudUpload,Sun,Moon,Landmark,Contact,Bell,Cable,Monitor} from '@lucide/svelte/icons'
+   import {Home,MessageSquareMore,Video,CloudUpload,Sun,Moon,Landmark,Contact,Bell,Cable,Monitor,Cctv} from '@lucide/svelte/icons'
    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
    import { toggleMode } from "mode-watcher";
    import { Button } from "$lib/components/ui/button/index.js";
@@ -36,6 +36,11 @@
       title:"Share Screen",
       window:"ShareScreen",
       icon:Monitor
+    }
+    ,{
+      title:"Screen Recorder",
+      window:"ScreenRecord",
+      icon:Cctv
     }
    ];
    // Menu items.
@@ -101,7 +106,7 @@
                   Swal.fire({icon:"error",title:`Current Connection type is not allowed for this feature to access.`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
                 }
               }
-              else if(item.window == "Home"){
+              else if(item.window == "Home" || item.window == "ScreenRecord"){
                 ChangeWindow(item.window)
               }
               else{

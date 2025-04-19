@@ -18,6 +18,8 @@
    import * as Table from "$lib/components/ui/table/index.js";
    import { Download } from "@lucide/svelte";
    import {SocketURL} from '$lib/Stores'
+   import fixWebmDuration from 'webm-duration-fix';
+    import ScreenRecorder from "$lib/UserDashboardWindows/ScreenRecorder.svelte";
    let Window = "Home"
    let UserID = ""
 	let AnotherID = ""
@@ -42,6 +44,9 @@
    let ServerAPI = SocketURL
    let socket: any;
    let ConversationLogMessages:{MessageType:string,Message:string,datetime:string,loginID:string}[] = []
+   let recordedData: BlobPart[] = []
+   let RecordExist:boolean = false
+   let RecordingFileName = ""
 
    const shortdummyID = nanoid(4).toLowerCase() // Generate Random User ID
    var peer = new Peer(shortdummyID,{secure:true,config: {
@@ -71,7 +76,8 @@
       socket = io(ServerAPI); // Replace with your server's URL
       // Connect to Socket
       socket.on('connect', () => {
-         console.log('Connected to the server');
+         console.warn(SocketURL)
+         console.warn('Connected to the server');
       });
 
       socket.on('Requestanother', (data:any) => {
@@ -515,6 +521,106 @@
          CameraStream.getTracks().forEach((track:any) => track.stop()); // Stop all tracks
       }
    }
+
+   // Start Share Screen
+   async function ShareRecording() {
+      try{
+         recordedData = []
+         RecordExist = false
+         let screenStream = await navigator.mediaDevices.getDisplayMedia({
+         audio: true,
+         video:{
+                width:{ideal:4096},
+                height:{ideal:2160}
+         }
+         }).catch((e) => {
+            if(e.name == "NotAllowedError"){
+              Swal.fire({icon:"warning",title:"Recording was cancelled",confirmButtonColor: "green"})
+            }
+            else{
+              Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+            }
+         })
+         if(screenStream){
+            // @ts-ignore
+            if(ConnectionType == "Peer"){
+               // peer.call(AnotherID,screenStream)
+               // conn.send({type:"ShareScreen"})
+               // ScreenOpen =true
+               const mediarecorder = new MediaRecorder(screenStream)
+               mediarecorder.start()
+               mediarecorder.addEventListener("stop",()=>{
+                  // LeaveConnection()
+               })
+               mediarecorder.addEventListener("dataavailable", async (e) => {
+                  debugger
+                  if(e.data.size > 0){
+                     recordedData.push(e.data)
+                     RecordExist = true
+                     //let data = await fixWebmDuration(new Blob([...recordedData], { type: downloadtypeMimetype }));
+                     // videodata.src = URL.createObjectURL(e.data)
+                  }
+               })
+            }
+            else{
+               Swal.fire({icon:"error",title:"Share Screen is not supported in this connection type!",confirmButtonColor: "green"})
+            }
+         }
+      }
+      catch{
+         Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+      }
+   }
+
+   // download Recording
+   const downloadrecording = async () => {
+      let downloadtypeExtension = ".mp4"
+      let downloadtypeMimetype = "video/mp4"
+      if(recordedData){
+         if(recordedData.length > 0){
+            let url;
+            try{
+               // Try to have Duration in video
+               const fixBlob = await fixWebmDuration(new Blob([...recordedData], { type: downloadtypeMimetype }));
+               url = URL.createObjectURL(fixBlob);
+            }
+            catch{
+               let blobParts: BlobPart[] = recordedData;
+               const blob = new Blob(blobParts, {
+                      type: downloadtypeMimetype,
+               });
+               url = URL.createObjectURL(blob);
+            }
+            const a = document.createElement("a");
+            a.href = url;
+            let dates = new Date()
+            if(RecordingFileName == ""){
+               a.download = `EchoBridge_${dates.toLocaleString()}${downloadtypeExtension}`;
+            }
+            else{
+               a.download = `${RecordingFileName}${downloadtypeExtension}`;
+            }
+            a.click();
+            window.URL.revokeObjectURL(url);
+            recordedData=[]
+            RecordExist = false
+            RecordingFileName = ""
+            Swal.fire({
+            position: "top-end",
+            title: "File downloaded successfully!",
+            showConfirmButton: false,
+            timer: 500,
+            confirmButtonColor: "green"
+            });
+         }
+      }
+   }
+
+   const ResetRecording = () => {
+      recordedData=[]
+      RecordExist = false
+      RecordingFileName = ""
+   }
  </script>
   <svelte:head>
    <title>EchoBridge</title>
@@ -588,6 +694,9 @@
                </Table.Body>
              </Table.Root>
          </div>
+      </div>
+      <div style={`content-visibility:${Window=="ScreenRecord"?"auto":"hidden"}`}>
+         <ScreenRecorder bind:RecordingFileName bind:RecordExist on:ShareRecording={ShareRecording} on:downloadrecording={downloadrecording} on:ResetRecording={ResetRecording}/>
       </div>
    </main>
  </Sidebar.Provider>

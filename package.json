@@ -34,6 +34,7 @@
 		"peerjs": "^1.5.4",
 		"socket.io": "^4.8.1",
 		"socket.io-client": "^4.8.1",
-		"sweetalert2": "^11.17.2"
+		"sweetalert2": "^11.17.2",
+		"webm-duration-fix": "^1.0.4"
 	}
 }
