@@ -1,5 +1,18 @@
-<script>
+<script lang="ts">
    import '$lib/Styles/LandingPage.css'
+   import {onMount} from 'svelte'
+   onMount(()=>{
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+
+    if(menuToggle){
+      menuToggle.addEventListener('click', () => {
+        if(navMenu){
+          navMenu.classList.toggle('show');
+        }
+      });
+    }
+   })
 </script>
 <svelte:head>
   <title>EchoBridge</title>
@@ -7,7 +20,8 @@
 <header class="header">
   <div class="container">
     <h1 class="logo">EchoBridge</h1>
-    <nav class="nav">
+    <button class="menu-toggle" id="menuToggle">&#9776;</button>
+    <nav class="nav" id="navMenu">
       <a href="#features">Features</a>
       <a href="#tech">Technology</a>
       <a href="#get-started">Get Started</a>
