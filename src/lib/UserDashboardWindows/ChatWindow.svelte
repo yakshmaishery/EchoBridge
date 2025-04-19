@@ -7,7 +7,12 @@
    import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
    import { Textarea } from "$lib/components/ui/textarea/index.js";
    import "$lib/Styles/ChatWindowCSS.css"
+   import Swal from 'sweetalert2';
    const dispatch = createEventDispatcher();
+   function ClipBoardCopy(msg:string){
+      navigator.clipboard.writeText(msg)
+      Swal.fire({icon:"success",title:`Copied Message Successfully!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+   }
 </script>
 <div class="dark:text-white ChatWindow">
    <div class="chatbubblewindow" id="chatwindow">
@@ -16,6 +21,7 @@
             {#if item.MessageType != "Sender"}
                <div class="chat-bubble chat-left">
                   <!-- <button on:click={()=>{navigator.clipboard.writeText(item.message)}}>📋</button> -->
+                   <div class="dotbtn">
                   <DropdownMenu.Root>
                      <DropdownMenu.Trigger><Ellipsis/></DropdownMenu.Trigger>
                      <DropdownMenu.Content>
@@ -25,16 +31,18 @@
                          <DropdownMenu.Item>Billing</DropdownMenu.Item>
                          <DropdownMenu.Item>Team</DropdownMenu.Item>
                          <DropdownMenu.Item>Subscription</DropdownMenu.Item> -->
-                         <button on:click={()=>{navigator.clipboard.writeText(item.Message)}} class="mx-3 my-3">Copy</button>
+                         <button on:click={()=>{ClipBoardCopy(item.Message)}} class="mx-3 my-3">Copy</button>
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
                         </DropdownMenu.Group>
                      </DropdownMenu.Content>
                    </DropdownMenu.Root>
+                   </div>
                   <pre>{item.Message}</pre>
                </div>
                {:else}
                <div class="chat-bubble chat-right">
                   <!-- <button on:click={()=>{navigator.clipboard.writeText(item.message)}}>📋</button> -->
+                  <div class="dotbtn">
                   <DropdownMenu.Root>
                      <DropdownMenu.Trigger class="chatcontrolbutton"><Ellipsis/></DropdownMenu.Trigger>
                      <DropdownMenu.Content>
@@ -44,11 +52,12 @@
                          <DropdownMenu.Item>Billing</DropdownMenu.Item>
                          <DropdownMenu.Item>Team</DropdownMenu.Item>
                          <DropdownMenu.Item>Subscription</DropdownMenu.Item> -->
-                         <button on:click={()=>{navigator.clipboard.writeText(item.Message)}} class="mx-3 my-3">Copy</button>
+                         <button on:click={()=>{ClipBoardCopy(item.Message)}} class="mx-3 my-3">Copy</button>
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
                        </DropdownMenu.Group>
                      </DropdownMenu.Content>
                    </DropdownMenu.Root>
+                   </div>
                   <pre>{item.Message}</pre>
                </div>
             {/if}
