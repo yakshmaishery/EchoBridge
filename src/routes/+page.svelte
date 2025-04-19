@@ -12,6 +12,19 @@
         }
       });
     }
+
+    const header = document.querySelector('.header');
+    window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      if(header){
+        header.classList.add('scrolled');
+      }
+    } else {
+      if(header){
+        header.classList.remove('scrolled');
+      }
+    }
+  });
    })
 </script>
 <svelte:head>
