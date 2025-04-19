@@ -10,7 +10,7 @@
 </script>
 <div class="text-center">
    <h2 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-      Welcome to personal chat
+      Welcome to EchoBridge
    </h2>
    <h2 class="scroll-m-20 my-5 text-4xl font-bold tracking-tight lg:text-7xl">
       ({UserID}) 

@@ -88,6 +88,7 @@
             IsConnected = true
             ConnectionType = "Socket"
             Swal.fire({icon:"success",title:"Connected successfully",confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+            Swal.close()
          }
       })
       socket.on('CHATLEAVECODEAnother', (data:any) => {
@@ -143,10 +144,19 @@
       debugger
       if(AnotherID){
          if(AnotherID.length==4){
+            Swal.fire({
+            title: 'Loading...',
+            html: 'Please wait while we process your request.',
+            allowOutsideClick: false,
+            didOpen: () => {
+               Swal.showLoading()
+            }
+            });
 
             AnotherID = AnotherID.toLowerCase()
             conn = peer.connect(AnotherID)
             conn.on("open",function(){
+               Swal.close()
                IsConnected = true
                ConnectionType = "Peer"
                conn.send({type:"text",message:"jhzxkdvbuyizxv"})
