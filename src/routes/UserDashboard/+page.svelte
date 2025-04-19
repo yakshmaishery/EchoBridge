@@ -103,6 +103,7 @@
             if(Window != "Chat"){
                Swal.fire({icon:"info",title:`You got a message!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
             }
+            scrolldownmessages()
          }
       })
       socket.on('startFileTransferAnother', (data:any) => {
@@ -204,6 +205,7 @@
             if(Window != "Chat"){
                Swal.fire({icon:"info",title:`You got a message!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
             }
+            scrolldownmessages()
          }
          if(msgtype == "ShareScreen"){
             anotheruserscreen = "Share Screen"
@@ -270,6 +272,7 @@
          socket.emit("CHATMESSAGES",{Message:UserMessage,MessageType:"Sender",datetime:getFormattedDateTime(),loginID:UserID,AnotherID:AnotherID})
       }
       UserMessage = ""
+      scrolldownmessages()
    }
    function getFormattedDateTime() {
       const now = new Date();
@@ -435,6 +438,19 @@
       a.href = base64;
       a.download = filename;
       a.click();
+   }
+
+   // Auto Scroll down
+	const scrolldownmessages = () => {
+      setTimeout(() => {
+         const div = document.getElementById("chatwindow");
+         if(div){
+            div.scrollTo({
+               top: div.scrollHeight+2000,
+               behavior: "smooth"
+            });
+         }
+      }, 500);
    }
  </script>
   <svelte:head>
