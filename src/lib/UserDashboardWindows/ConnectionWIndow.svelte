@@ -7,12 +7,12 @@
 <div class="container" style="text-align: left;">
    <Alert.Root>
       <Info class="size-4" />
-      <Alert.Title>Connection</Alert.Title><br/>
-      <Alert.Description>Connection Type:-  <b>{ConnectionType}</b></Alert.Description><br/>
+      <Alert.Title class="lg:text-3xl font-bold">Connection</Alert.Title><br/>
+      <Alert.Description class="lg:text-2xl font-bold">Connection Type:-  <b class="text-green-500">{ConnectionType}</b></Alert.Description><br/>
       {#if IsConnected}
-         <Alert.Description>Currently you are connected with another User!</Alert.Description><br/>
+         <Alert.Description class="text-green-500 lg:text-2xl font-bold">Currently you are connected with another User!</Alert.Description><br/>
          {:else}
-         <Alert.Description>Currently you are not connected with another User!</Alert.Description><br/>
+         <Alert.Description class="text-red-500 lg:text-2xl font-bold">Currently you are not connected with another User!</Alert.Description><br/>
       {/if}
       {#if ConnectionType == "Peer"}
          <Alert.Description>Currently you connection type is <b>PEER</b> which means there will be no thirdparty server is required for communication.</Alert.Description><br/>
