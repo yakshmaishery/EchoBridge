@@ -4,30 +4,76 @@
 <svelte:head>
   <title>EchoBridge</title>
 </svelte:head>
-<div class="container">
-   <!-- Logo -->
-   <img src="/Images/favicon.png" alt="App Logo" class="logo" width="30%" />
+<header class="header">
+  <div class="container">
+    <h1 class="logo">EchoBridge</h1>
+    <nav class="nav">
+      <a href="#features">Features</a>
+      <a href="#tech">Technology</a>
+      <a href="#get-started">Get Started</a>
+    </nav>
+  </div>
+</header>
 
-   <h1>Connect Instantly with <b style="color: yellow;">EchoBridge</b></h1>
-   <p>Welcome to your all-in-one Private Conversations platform. Start a secure video call, chat in real-time, send files, or share your screen — all in one place.</p>
+<section class="hero">
+  <div class="container">
+    <h2>Real-Time Communication. Simplified.</h2>
+    <p>EchoBridge brings you seamless one-on-one video calling, chat, screen sharing, and file transfers — all in one place.</p>
+    <a href="/UserDashboard" data-sveltekit-reload class="btn">Start Connecting</a>
+  </div>
+</section>
 
-   <div class="features">
-     🔹 <span class="highlight">Video Calls</span> – High-quality peer-to-peer video with no lags.<br/>
-     🔹 <span class="highlight">Text Chat</span> – Real-time messaging with emoji support.<br/>
-     🔹 <span class="highlight">File Transfer</span> – Share documents, images, and more securely.<br/>
-     🔹 <span class="highlight">Screen Sharing</span> – Present your screen for collaboration or help.
-   </div>
+<section id="features" class="features">
+  <div class="container">
+    <h2>Core Features</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>💬 Chat</h3>
+        <p>Instant text messaging with real-time updates powered by Socket.IO.</p>
+      </div>
+      <div class="card">
+        <h3>📹 Video Call</h3>
+        <p>Crystal-clear video calls using WebRTC via PeerJS for direct peer-to-peer connections.</p>
+      </div>
+      <div class="card">
+        <h3>🖥️ Screen Share</h3>
+        <p>Share your screen with one click—ideal for presentations, troubleshooting, or teaching.</p>
+      </div>
+      <div class="card">
+        <h3>📁 File Transfer</h3>
+        <p>Securely share files with no size limits, directly between users.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-   <a class="start-button" href="/UserDashboard" data-sveltekit-reload>Start a Session</a>
+<section id="tech" class="tech">
+  <div class="container">
+    <h2>Powered by Modern Tech</h2>
+    <div class="grid">
+      <div>
+        <h3>PeerJS</h3>
+        <p>PeerJS simplifies WebRTC by handling peer discovery and connection setup, enabling smooth video, audio, and data transfer without complex signaling code.</p>
+      </div>
+      <div>
+        <h3>Socket.IO</h3>
+        <p>Socket.IO enables fast, real-time communication for text chat and signaling, making it the backbone for initiating peer connections and data syncing.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-   <div class="why-choose">
-     <h2>Why Choose Us?</h2>
-     <ul>
-       <li>No sign-ups or downloads – connect instantly from your browser</li>
-       <li>Encrypted peer-to-peer communication</li>
-       <li>Simple and elegant user interface</li>
-       <li>Optimized for desktop and mobile</li>
-       <li>Built with modern WebRTC technology</li>
-     </ul>
-   </div>
- </div>
+<section id="get-started" class="cta">
+  <div class="container">
+    <h2>Ready to Connect?</h2>
+    <p>Start using EchoBridge today and experience fast, reliable one-on-one communication.</p>
+    <!-- svelte-ignore a11y_invalid_attribute -->
+    <a href="#" class="btn">Launch App</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2025 EchoBridge. Built with ❤️ using PeerJS & Socket.IO</p>
+  </div>
+</footer>
