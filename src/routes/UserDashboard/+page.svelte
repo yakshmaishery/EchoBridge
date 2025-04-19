@@ -440,7 +440,7 @@
    <title>EchoBridge</title>
  </svelte:head>
  <Sidebar.Provider>
-   <AppSidebar bind:Window />
+   <AppSidebar bind:Window bind:IsConnected bind:ConnectionType />
    <main style="width: 100%;">
      <Sidebar.Trigger />
      <!-- {@render children?.()} -->

@@ -1,5 +1,7 @@
 <script lang="ts">
    export let Window = ""
+   export let IsConnected = false
+   export let ConnectionType = ""
 
    import {Home,MessageSquareMore,Video,CloudUpload,Sun,Moon,Landmark,Contact,Bell,Cable,Monitor} from '@lucide/svelte/icons'
    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
@@ -86,7 +88,19 @@
         <Sidebar.MenuItem>
          <Sidebar.MenuButton class={item.window == Window?"menuitemsselect":"menuitems"}>
           {#snippet child({ props })}
-           <a {...props} style="cursor: pointer;" on:click={()=>{ChangeWindow(item.window)}}>
+           <a {...props} style="cursor: pointer;" on:click={()=>{
+              if(IsConnected){
+                if(ConnectionType == "Peer"){
+                  ChangeWindow(item.window)
+                }
+                else if(item.window != "ShareScreen" && item.window != "videocall"){
+                  ChangeWindow(item.window)
+                }
+              }
+              else if(item.window == "Home"){
+                ChangeWindow(item.window)
+              }
+            }}>
             <item.icon />
             <span>{item.title}</span>
            </a>

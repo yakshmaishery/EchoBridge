@@ -12,14 +12,14 @@
    <h2 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
       Welcome to personal chat
    </h2>
-   <h2 class="scroll-m-20 my-5 text-4xl font-extrabold tracking-tight lg:text-2xl">
-      Your ID ({UserID}) 
+   <h2 class="scroll-m-20 my-5 text-4xl font-bold tracking-tight lg:text-7xl">
+      ({UserID}) 
    </h2>
    <div id="inputbox">
       <p class="leading-7 [&:not(:first-child)]:mt-6">
          Enter the another ID
       </p>
-      <InputOTP.Root maxlength={4} inputmode={"text"} bind:value={AnotherID}>
+      <InputOTP.Root maxlength={4} inputmode={"text"} bind:value={AnotherID} disabled={IsConnected}>
          {#snippet children({ cells })}
             <InputOTP.Group>
               {#each cells as cell (cell)}
