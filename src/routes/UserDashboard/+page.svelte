@@ -221,6 +221,20 @@
             }
             catch{}
          }
+         if(msgtype == "VideoCamera"){
+            anotheruserscreen = "Video Camera"
+            Window="videocall"
+         }
+         if(msgtype == "VideoCameraStop"){
+            anotheruserscreen = ""
+            videodataCamera.srcObject=null
+            try{
+               if(document.fullscreenElement){
+                  document.exitFullscreen()
+               }
+            }
+            catch{}
+         }
          if (msgtype === 'startFileTransfer') {
             fileInfo[data.name] = { size: data.size, received: 0 };
             receivedBuffers[data.name] = [];
@@ -342,8 +356,8 @@
             videodata.play()
          }
          else{
-            // videodataCamera.srcObject = remoteStream
-            // videodataCamera.play()
+            videodataCamera.srcObject = remoteStream
+            videodataCamera.play()
          }
       })
    })
@@ -452,6 +466,45 @@
          }
       }, 500);
    }
+
+   // Start Share Screen
+   async function CameraScreen() {
+      try{
+         const constraints = { video: { facingMode: cameraSide } ,Audio:true}; // Use "environment" for back camera
+         CameraStream = await navigator.mediaDevices.getUserMedia(constraints).catch((e) => {
+                if(e.name == "NotAllowedError"){
+                       Swal.fire({icon:"warning",title:"Recording was cancelled",confirmButtonColor: "green"})
+                }
+                else{
+                       Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+                }
+         })
+         if(CameraStream){
+            CameraOpen = true
+            // @ts-ignore
+            peer.call(AnotherID,CameraStream)
+            videodataCamera.srcObject = CameraStream
+            videodataCamera.play()
+            conn.send({type:"VideoCamera"})
+            const mediarecorder = new MediaRecorder(CameraStream)
+            mediarecorder.start()
+            mediarecorder.addEventListener("stop",()=>{
+               // LeaveConnection()
+               conn.send({type:"VideoCameraStop"})
+            })
+         }
+      }
+      catch{
+         Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+      }
+   }
+
+   function StopCamera(){
+      CameraOpen = false
+      if (CameraStream) {
+         CameraStream.getTracks().forEach((track:any) => track.stop()); // Stop all tracks
+      }
+   }
  </script>
   <svelte:head>
    <title>EchoBridge</title>
@@ -468,7 +521,7 @@
          <ChatWindow bind:ConversationLogMessages bind:IsConnected bind:UserMessage on:SendMessage={SendMessage}/>
       </div>
       <div style={`content-visibility:${Window=="videocall"?"auto":"hidden"}`}>
-         <VideoChatWindow/>
+         <VideoChatWindow bind:IsConnected bind:CameraOpen bind:cameraSide bind:videodata={videodataCamera} on:CameraScreen={CameraScreen} on:StopCamera={StopCamera}/>
       </div>
       <div style={`content-visibility:${Window=="ShareScreen"?"auto":"hidden"}`}>
          <ShareScreenWindow bind:IsConnected bind:ScreenOpen bind:videodata on:ShareScreen={ShareScreen}/>
