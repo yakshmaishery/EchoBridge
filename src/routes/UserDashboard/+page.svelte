@@ -17,6 +17,7 @@
    import { Progress } from "$lib/components/ui/progress/index.js";
    import * as Table from "$lib/components/ui/table/index.js";
    import { Download } from "@lucide/svelte";
+   import {SocketURL} from '$lib/Stores'
    let Window = "Home"
    let UserID = ""
 	let AnotherID = ""
@@ -38,7 +39,7 @@
    let downloadfileList:{filename:string,base64:string,filesize:string,datetime:string}[] = []
    let ConnectionType = "Peer"
    let IsConnected:boolean = false
-   let ServerAPI = "https://echobridge-server.onrender.com/"
+   let ServerAPI = SocketURL
    let socket: any;
    let ConversationLogMessages:{MessageType:string,Message:string,datetime:string,loginID:string}[] = []
 
