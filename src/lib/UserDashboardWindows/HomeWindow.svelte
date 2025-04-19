@@ -13,7 +13,7 @@
       Welcome to EchoBridge
    </h2>
    <h2 class="scroll-m-20 my-5 text-4xl font-bold tracking-tight lg:text-7xl">
-      ({UserID}) 
+      ( {UserID} ) 
    </h2>
    <div id="inputbox">
       <p class="leading-7 [&:not(:first-child)]:mt-6">
