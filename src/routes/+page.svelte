@@ -25,22 +25,22 @@
 
 <section id="features" class="features">
   <div class="container">
-    <h2>Core Features</h2>
+    <h2 class="lg:text-5xl font-bold">Core Features</h2>
     <div class="grid">
       <div class="card">
-        <h3>💬 Chat</h3>
+        <h3 class="lg:text-2xl font-bold">💬 Chat</h3>
         <p>Instant text messaging with real-time updates powered by Socket.IO.</p>
       </div>
       <div class="card">
-        <h3>📹 Video Call</h3>
+        <h3 class="lg:text-2xl font-bold">📹 Video Call</h3>
         <p>Crystal-clear video calls using WebRTC via PeerJS for direct peer-to-peer connections.</p>
       </div>
       <div class="card">
-        <h3>🖥️ Screen Share</h3>
+        <h3 class="lg:text-2xl font-bold">🖥️ Screen Share</h3>
         <p>Share your screen with one click—ideal for presentations, troubleshooting, or teaching.</p>
       </div>
       <div class="card">
-        <h3>📁 File Transfer</h3>
+        <h3 class="lg:text-2xl font-bold">📁 File Transfer</h3>
         <p>Securely share files with no size limits, directly between users.</p>
       </div>
     </div>
@@ -49,14 +49,14 @@
 
 <section id="tech" class="tech">
   <div class="container">
-    <h2>Powered by Modern Tech</h2>
+    <h2 class="lg:text-5xl font-bold">Powered by Modern Tech</h2>
     <div class="grid">
       <div>
-        <h3>PeerJS</h3>
+        <h3 class="lg:text-2xl font-bold">PeerJS</h3>
         <p>PeerJS simplifies WebRTC by handling peer discovery and connection setup, enabling smooth video, audio, and data transfer without complex signaling code.</p>
       </div>
       <div>
-        <h3>Socket.IO</h3>
+        <h3 class="lg:text-2xl font-bold">Socket.IO</h3>
         <p>Socket.IO enables fast, real-time communication for text chat and signaling, making it the backbone for initiating peer connections and data syncing.</p>
       </div>
     </div>
@@ -65,7 +65,7 @@
 
 <section id="get-started" class="cta">
   <div class="container">
-    <h2>Ready to Connect?</h2>
+    <h2 class="lg:text-5xl font-bold">Ready to Connect?</h2>
     <p>Start using EchoBridge today and experience fast, reliable one-on-one communication.</p>
     <!-- svelte-ignore a11y_invalid_attribute -->
     <a href="#" class="btn">Launch App</a>
