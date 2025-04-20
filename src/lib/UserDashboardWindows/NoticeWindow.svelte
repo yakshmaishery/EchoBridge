@@ -19,6 +19,9 @@
           <li>
             <strong>Connection Drop:</strong> If your network switches (e.g., from Wi-Fi to mobile data), the session may disconnect and need to be re-established.
           </li>
+          <li>
+            <strong>Screen Recorder on Mobile:</strong> Currently, mobile devices <strong>cannot share their screen</strong> due to browser and OS restrictions.
+          </li>
         </ul>
    
         <div class="highlight">

@@ -37,12 +37,15 @@
       window:"ShareScreen",
       icon:Monitor
     }
-    ,{
+   ];
+   // Menu items.
+   const items2 = [
+    {
       title:"Screen Recorder",
       window:"ScreenRecord",
       icon:Cctv
     }
-   ];
+   ]
    // Menu items.
    const items1 = [
     {
@@ -149,7 +152,28 @@
      </Sidebar.GroupContent>
     </Sidebar.Group>
     <!-- Settings Ends here -->
-    <!-- Settings Starts here -->
+    <!-- Other tools Starts here -->
+    <Sidebar.Group>
+     <Sidebar.GroupLabel>Other tools</Sidebar.GroupLabel>
+     <Sidebar.GroupContent>
+      <Sidebar.Menu>
+         {#each items2 as item (item.title)}
+         <Sidebar.MenuItem>
+          <Sidebar.MenuButton class={item.window == Window?"menuitemsselect":"menuitems"}>
+           {#snippet child({ props })}
+            <a {...props} style="cursor: pointer;" on:click={()=>{ChangeWindow(item.window)}}>
+             <item.icon />
+             <span>{item.title}</span>
+            </a>
+           {/snippet}
+          </Sidebar.MenuButton>
+         </Sidebar.MenuItem>
+        {/each}
+      </Sidebar.Menu>
+     </Sidebar.GroupContent>
+    </Sidebar.Group>
+    <!-- Other tools Ends here -->
+    <!-- About Starts here -->
     <Sidebar.Group>
      <Sidebar.GroupLabel>About</Sidebar.GroupLabel>
      <Sidebar.GroupContent>
@@ -169,6 +193,6 @@
       </Sidebar.Menu>
      </Sidebar.GroupContent>
     </Sidebar.Group>
-    <!-- Settings Ends here -->
+    <!-- About Ends here -->
    </Sidebar.Content>
   </Sidebar.Root>

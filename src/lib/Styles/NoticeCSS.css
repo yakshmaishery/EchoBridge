@@ -17,6 +17,9 @@
    /* position: absolute; */
    padding: 20px;
  }
+ .notice ul li {
+   margin: 10px;
+ }
 
  .notice h2 {
    margin-top: 0;
