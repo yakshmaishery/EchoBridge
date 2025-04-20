@@ -19,31 +19,30 @@
    import { Download } from "@lucide/svelte";
    import {SocketURL} from '$lib/Stores'
    import fixWebmDuration from 'webm-duration-fix';
-    import ScreenRecorder from "$lib/UserDashboardWindows/ScreenRecorder.svelte";
-   let Window = "Home"
-   let UserID = ""
-	let AnotherID = ""
-	let UserMessage = ""
-	let conn:any
-   let VulnerableMessages = ["jhzxkdvbuyizxv","CHATLEAVECODE","SharedScreenzjhgdvzjvguyzgv","StopScreenzjhgdvzjvguyzgv","SharedCamerazjhgdvzjvguyzgv","StopCamerazjhgdvzjvguyzgv"]
-   let CameraOpen = false
-   let ScreenOpen = false
-   let CameraStream:any = null
-   let cameraSide:string = "user"
-   let videodata:HTMLVideoElement
-   let videodataCamera:HTMLVideoElement
-   let anotheruserscreen = ""
+   import ScreenRecorder from "$lib/UserDashboardWindows/ScreenRecorder.svelte";
+   let Window = "Home" // Current Window
+   let UserID = "" // Current UserID 4 digit
+	let AnotherID = ""// Another UserID 4 digit
+	let UserMessage = ""// Chat Message variable
+	let conn:any// Peer JS Connection
+   let CameraOpen = false// Camera connection open or close
+   let ScreenOpen = false// Screen share connection open or close
+   let CameraStream:any = null// Camera stream
+   let cameraSide:string = "user"// Camera front/back side
+   let videodata:HTMLVideoElement// Screen share video tag
+   let videodataCamera:HTMLVideoElement// Camera video tag
+   let anotheruserscreen = ""// change another person window according to share screen or camera
    const CHUNK_SIZE = 64 * 1024; // 64KB chunks
-   const receivedBuffers:any = {};
-   const fileInfo:any = {};
+   const receivedBuffers:any = {};// file transfer temp array
+   const fileInfo:any = {};// file transfer list
    let Progressvalue = 0;
    let Progressmax = 0;
    let downloadfileList:{filename:string,base64:string,filesize:string,datetime:string}[] = []
-   let ConnectionType = "Peer"
-   let IsConnected:boolean = false
-   let ServerAPI = SocketURL
-   let socket: any;
-   let ConversationLogMessages:{MessageType:string,Message:string,datetime:string,loginID:string}[] = []
+   let ConnectionType = "Peer"// Connection Type Peer/Socket
+   let IsConnected:boolean = false// Connection is connected or not.
+   let ServerAPI = SocketURL// Socket IO Server URL
+   let socket: any;// Socket Connection
+   let ConversationLogMessages:{MessageType:string,Message:string,datetime:string,loginID:string}[] = []// Chat window messages log
    let recordedData: BlobPart[] = []
    let RecordExist:boolean = false
    let RecordingFileName = ""
