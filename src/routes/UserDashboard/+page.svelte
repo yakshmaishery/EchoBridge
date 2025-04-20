@@ -629,31 +629,39 @@
    <AppSidebar bind:Window bind:IsConnected bind:ConnectionType />
    <main style="width: 100%;">
      <Sidebar.Trigger />
-     <!-- {@render children?.()} -->
+     <!-- Home Window -->
       <div style={`content-visibility:${Window=="Home"?"auto":"hidden"}`}>
          <HomeWindow bind:AnotherID bind:UserID on:ConnectwithUserFirst={ConnectwithUserFirst} on:LeaveConnection={LeaveConnection} bind:IsConnected/>
       </div>
+      <!-- Chat Window -->
       <div style={`content-visibility:${Window=="Chat"?"auto":"hidden"}`}>
          <ChatWindow bind:ConversationLogMessages bind:IsConnected bind:UserMessage on:SendMessage={SendMessage}/>
       </div>
+      <!-- Video call Window -->
       <div style={`content-visibility:${Window=="videocall"?"auto":"hidden"}`}>
          <VideoChatWindow bind:IsConnected bind:CameraOpen bind:cameraSide bind:videodata={videodataCamera} on:CameraScreen={CameraScreen} on:StopCamera={StopCamera}/>
       </div>
+      <!-- Share Screen Window -->
       <div style={`content-visibility:${Window=="ShareScreen"?"auto":"hidden"}`}>
          <ShareScreenWindow bind:IsConnected bind:ScreenOpen bind:videodata on:ShareScreen={ShareScreen}/>
       </div>
+      <!-- Tutorial Window -->
       <div style={`content-visibility:${Window=="Tutorial"?"auto":"hidden"}`}>
          <TutorialWindow/>
       </div>
+      <!-- Notice Window -->
       <div style={`content-visibility:${Window=="Notice"?"auto":"hidden"}`}>
          <NoticeWindow/>
       </div>
+      <!-- Contact Window -->
       <div style={`content-visibility:${Window=="Contact"?"auto":"hidden"}`}>
          <ContactWindow/>
       </div>
+      <!-- Connection Window -->
       <div style={`content-visibility:${Window=="ConnectionWindow"?"auto":"hidden"}`}>
          <ConnectionWIndow bind:ConnectionType bind:IsConnected/>
       </div>
+      <!-- File Transfer Window -->
       <div style={`content-visibility:${Window=="FileTransfer"?"auto":"hidden"}`}>
          <div class="px-10 py-3">
             <input type="file" class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" on:change={(e)=>{filechange(e)}} />
@@ -673,13 +681,6 @@
                  </Table.Row>
                </Table.Header>
                <Table.Body>
-                 <!-- <Table.Row>
-                   <Table.Cell class="font-medium">ABC.pdf</Table.Cell>
-                   <Table.Cell class="text-right">
-                     <button class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" 
-                     disabled={!IsConnected}><Download/></button>
-                   </Table.Cell>
-                 </Table.Row> -->
                  {#each downloadfileList as item}
                   <Table.Row>
                      <Table.Cell class="font-medium">{item.filename}</Table.Cell>
@@ -695,6 +696,7 @@
              </Table.Root>
          </div>
       </div>
+      <!-- Screen Recorder Window -->
       <div style={`content-visibility:${Window=="ScreenRecord"?"auto":"hidden"}`}>
          <ScreenRecorder bind:RecordingFileName bind:RecordExist on:ShareRecording={ShareRecording} on:downloadrecording={downloadrecording} on:ResetRecording={ResetRecording}/>
       </div>
