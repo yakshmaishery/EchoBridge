@@ -22,6 +22,9 @@
           <li>
             <strong>Screen Recorder on Mobile:</strong> Currently, mobile devices <strong>cannot share their screen</strong> due to browser and OS restrictions.
           </li>
+          <li>
+            <strong>Snipping on Mobile:</strong> Currently, mobile devices <strong>cannot share their screen</strong> due to browser and OS restrictions.
+          </li>
         </ul>
    
         <div class="highlight">

@@ -20,6 +20,7 @@
    import {SocketURL} from '$lib/Stores'
    import fixWebmDuration from 'webm-duration-fix';
    import ScreenRecorder from "$lib/UserDashboardWindows/ScreenRecorder.svelte";
+   import SnippingtoolWindow from "$lib/UserDashboardWindows/SnippingtoolWindow.svelte";
    let Window = "Home" // Current Window
    let UserID = "" // Current UserID 4 digit
 	let AnotherID = ""// Another UserID 4 digit
@@ -31,6 +32,7 @@
    let cameraSide:string = "user"// Camera front/back side
    let videodata:HTMLVideoElement// Screen share video tag
    let videodataCamera:HTMLVideoElement// Camera video tag
+   let SnippingToolVideo:HTMLVideoElement// Snipping tool window
    let anotheruserscreen = ""// change another person window according to share screen or camera
    const CHUNK_SIZE = 64 * 1024; // 64KB chunks
    const receivedBuffers:any = {};// file transfer temp array
@@ -46,6 +48,7 @@
    let recordedData: BlobPart[] = []
    let RecordExist:boolean = false
    let RecordingFileName = ""
+   let Snippingtoolfilename = ""
 
    const shortdummyID = nanoid(4).toLowerCase() // Generate Random User ID
    var peer = new Peer(shortdummyID,{secure:true,config: {
@@ -620,6 +623,88 @@
       RecordExist = false
       RecordingFileName = ""
    }
+
+   // Start Snipping tool
+   async function StartCapture() {
+      try{
+         recordedData = []
+         RecordExist = false
+         let screenStream = await navigator.mediaDevices.getDisplayMedia({
+         audio: true,
+         video:{
+                width:{ideal:4096},
+                height:{ideal:2160}
+         }
+         }).catch((e) => {
+            if(e.name == "NotAllowedError"){
+              Swal.fire({icon:"warning",title:"Recording was cancelled",confirmButtonColor: "green"})
+            }
+            else{
+              Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+            }
+         })
+         if(screenStream){
+            // @ts-ignore
+            const mediarecorder = new MediaRecorder(screenStream)
+            mediarecorder.start()
+            mediarecorder.addEventListener("stop",()=>{
+               // LeaveConnection()
+            })
+            mediarecorder.addEventListener("dataavailable", async (e) => {
+               debugger
+               if(e.data.size > 0){
+                  let downloadtypeMimetype = "video/mp4"
+                  let data = await fixWebmDuration(new Blob([e.data], { type: downloadtypeMimetype }));
+                  SnippingToolVideo.src = URL.createObjectURL(data)
+                  SnippingToolVideo.play()
+               }
+            })
+         }
+      }
+      catch{
+         Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+      }
+   }
+   // Reset Snipping tool
+   function ResetCapture(){
+      Snippingtoolfilename = ""
+      if(SnippingToolVideo){
+         SnippingToolVideo.src = ''
+      }
+   }
+   // Capture Snipping tool
+   function CaptureSnip(){
+      if(SnippingToolVideo){
+         if(SnippingToolVideo.src != ''){
+            const video = SnippingToolVideo;
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext('2d');
+            // Set the canvas dimensions to match the video
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            // Draw the current frame of the video onto the canvas
+            if(context){
+                  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            }
+            // Convert the canvas to a data URL
+            const dataURL = canvas.toDataURL('image/jpg');
+            const link = document.createElement('a');
+            link.href = dataURL;
+            // link.download = 'image.png'; // Specify the filename
+            let dates = new Date()
+            if(Snippingtoolfilename == ""){
+                  link.download = `EchoBridge_FRAME_${dates.toLocaleString()}.jpg`;
+            }
+            else{
+                  link.download = `${Snippingtoolfilename}.jpg`;
+            }
+            // Trigger the download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+         }
+      }
+   }
  </script>
   <svelte:head>
    <title>EchoBridge</title>
@@ -698,6 +783,10 @@
       <!-- Screen Recorder Window -->
       <div style={`content-visibility:${Window=="ScreenRecord"?"auto":"hidden"}`}>
          <ScreenRecorder bind:RecordingFileName bind:RecordExist on:ShareRecording={ShareRecording} on:downloadrecording={downloadrecording} on:ResetRecording={ResetRecording}/>
+      </div>
+      <!-- Screen Recorder Window -->
+      <div style={`content-visibility:${Window=="Snippingtool"?"auto":"hidden"}`}>
+         <SnippingtoolWindow bind:videodata={SnippingToolVideo} bind:Snippingtoolfilename on:StartCapture={StartCapture} on:ResetCapture={ResetCapture} on:CaptureSnip={CaptureSnip}/>
       </div>
    </main>
  </Sidebar.Provider>
