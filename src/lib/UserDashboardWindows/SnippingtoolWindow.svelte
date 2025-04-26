@@ -25,7 +25,7 @@
    <button class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" on:click={()=>{dispatch("StartCapture")}}>Start Capture</button>
    <button class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" on:click={()=>{dispatch("CaptureSnip")}}>Capture Screen</button>
    <button class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" on:click={()=>{dispatch("ResetCapture")}}>Reset</button>
-   <input type="file" class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" on:change={(e)=>{filechange(e)}} id="videouploader" />
+   <input type="file" class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" on:change={(e)=>{filechange(e)}} id="videouploader" accept="video/*" />
 </div>
 <div>
    <!-- svelte-ignore a11y_media_has_caption -->
