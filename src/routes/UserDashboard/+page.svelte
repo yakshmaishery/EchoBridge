@@ -75,7 +75,7 @@
    });
 
    onMount(() => {
-      let socket = io(ServerAPI); // Replace with your server's URL
+      socket = io(ServerAPI); // Replace with your server's URL
       // Connect to Socket
       socket.on('connect', () => {
          console.warn(SocketURL)
