@@ -108,7 +108,7 @@
             IsConnected = true
             ConnectionType = "Socket"
             Swal.close()
-            Swal.fire({icon:"success",title:"Connected successfully",confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+            Swal.fire({icon:"success",title:"Connected successfully",confirmButtonColor: "green",timer:3000,showConfirmButton:false})
          }
       })
       socket.on('CHATLEAVECODEAnother', (data:any) => {
@@ -122,7 +122,7 @@
             ConversationLogMessages.push({Message:data.Message,MessageType:"Reciever",datetime:data.datetime,loginID:data.loginID})
             ConversationLogMessages = ConversationLogMessages
             if(Window != "Chat"){
-               Swal.fire({icon:"info",title:`You got a message!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+               Swal.fire({icon:"info",title:`You got a message!`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
             }
             scrolldownmessages()
          }
@@ -153,7 +153,7 @@
             delete receivedBuffers[data.name];
             delete fileInfo[data.name];
             if(Window!="File Transfer"){
-               Swal.fire({icon:"success",title:"You have received an file go to File Transfer!",confirmButtonColor: "green",showConfirmButton:false,timer:1500})
+               Swal.fire({icon:"success",title:"You have received an file go to File Transfer!",confirmButtonColor: "green",showConfirmButton:false,timer:3000})
             }
          }
       })
@@ -180,7 +180,7 @@
                IsConnected = true
                ConnectionType = "Peer"
                conn.send({type:"text",message:"jhzxkdvbuyizxv"})
-               Swal.fire({icon:"success",title:"Connected successfully",confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+               Swal.fire({icon:"success",title:"Connected successfully",confirmButtonColor: "green",timer:3000,showConfirmButton:false})
             })
             conn.on('error', (err:any) => {
                Swal.fire({icon:"error",title:err.type,confirmButtonColor: "green"})
@@ -195,11 +195,11 @@
             }, 3000);
          }
          else{
-            Swal.fire({icon:"error",title:"another ID should be of 4 digit code",confirmButtonColor: "green",timer:1500,showConfirmButton:false})   
+            Swal.fire({icon:"error",title:"another ID should be of 4 digit code",confirmButtonColor: "green",timer:3000,showConfirmButton:false})   
          }
       }
       else{
-         Swal.fire({icon:"error",title:"another ID is mandatory!",confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+         Swal.fire({icon:"error",title:"another ID is mandatory!",confirmButtonColor: "green",timer:3000,showConfirmButton:false})
       }
    }
 
@@ -233,7 +233,7 @@
             ConversationLogMessages.push({Message:data.chatdata.Message,MessageType:"Reciever",datetime:data.chatdata.datetime,loginID:data.chatdata.loginID})
             ConversationLogMessages = ConversationLogMessages
             if(Window != "Chat"){
-               Swal.fire({icon:"info",title:`You got a message!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+               Swal.fire({icon:"info",title:`You got a message!`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
             }
             scrolldownmessages()
          }
@@ -286,7 +286,7 @@
             delete receivedBuffers[data.name];
             delete fileInfo[data.name];
             if(Window!="File Transfer"){
-               Swal.fire({icon:"success",title:"You have received an file go to File Transfer!",confirmButtonColor: "green",showConfirmButton:false,timer:1500})
+               Swal.fire({icon:"success",title:"You have received an file go to File Transfer!",confirmButtonColor: "green",showConfirmButton:false,timer:3000})
             }
          }
       })
@@ -307,16 +307,21 @@
    }
 
    const SendMessage = () => {
-      ConversationLogMessages.push({Message:UserMessage,MessageType:"Sender",datetime:getFormattedDateTime(),loginID:UserID})
-      ConversationLogMessages = ConversationLogMessages
-      if(ConnectionType == "Peer"){
-         conn.send({type:"chat",chatdata:{Message:UserMessage,MessageType:"Sender",datetime:getFormattedDateTime(),loginID:UserID}})
+      if(UserMessage){
+         ConversationLogMessages.push({Message:UserMessage,MessageType:"Sender",datetime:getFormattedDateTime(),loginID:UserID})
+         ConversationLogMessages = ConversationLogMessages
+         if(ConnectionType == "Peer"){
+            conn.send({type:"chat",chatdata:{Message:UserMessage,MessageType:"Sender",datetime:getFormattedDateTime(),loginID:UserID}})
+         }
+         else{
+            socket.emit("CHATMESSAGES",{Message:UserMessage,MessageType:"Sender",datetime:getFormattedDateTime(),loginID:UserID,AnotherID:AnotherID})
+         }
+         UserMessage = ""
+         scrolldownmessages()
       }
       else{
-         socket.emit("CHATMESSAGES",{Message:UserMessage,MessageType:"Sender",datetime:getFormattedDateTime(),loginID:UserID,AnotherID:AnotherID})
+         Swal.fire({icon:"error",title:"please enter message!",confirmButtonColor: "green",timer:3000,showConfirmButton:false})
       }
-      UserMessage = ""
-      scrolldownmessages()
    }
    function getFormattedDateTime() {
       const now = new Date();
