@@ -8,7 +8,7 @@
    import TutorialWindow from "$lib/UserDashboardWindows/TutorialWindow.svelte";
    import VideoChatWindow from "$lib/UserDashboardWindows/VideoChatWindow.svelte";
    import {Peer} from 'peerjs'
-   import {nanoid} from 'nanoid'
+   import {nanoid,customAlphabet} from 'nanoid'
    import Swal from 'sweetalert2';
    import { io } from "socket.io-client";
    import { onMount } from "svelte";
@@ -49,8 +49,10 @@
    let RecordExist:boolean = false
    let RecordingFileName = ""
    let Snippingtoolfilename = ""
+   const numbersOnlyNanoid = customAlphabet('0123456789', 4); // 4 digits
 
-   const shortdummyID = nanoid(4).toLowerCase() // Generate Random User ID
+   // const shortdummyID = nanoid(4).toLowerCase() // Generate Random User ID
+   const shortdummyID = numbersOnlyNanoid() // Generate Random User ID
    var peer = new Peer(shortdummyID,{secure:true,config: {
       iceServers: [
          {
