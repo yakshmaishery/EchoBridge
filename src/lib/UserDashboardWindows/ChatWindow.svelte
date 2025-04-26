@@ -31,7 +31,10 @@
                          <DropdownMenu.Item>Billing</DropdownMenu.Item>
                          <DropdownMenu.Item>Team</DropdownMenu.Item>
                          <DropdownMenu.Item>Subscription</DropdownMenu.Item> -->
-                         <button on:click={()=>{ClipBoardCopy(item.Message)}} class="mx-3 my-3">Copy</button>
+                         <DropdownMenu.Item>
+                            <button on:click={()=>{ClipBoardCopy(item.Message)}}>Copy</button>
+                         </DropdownMenu.Item>
+                         <!-- <DropdownMenu.Item on:click={()=>{ClipBoardCopy(item.Message)}}>Copy</DropdownMenu.Item> -->
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
                         </DropdownMenu.Group>
                      </DropdownMenu.Content>
@@ -52,7 +55,10 @@
                          <DropdownMenu.Item>Billing</DropdownMenu.Item>
                          <DropdownMenu.Item>Team</DropdownMenu.Item>
                          <DropdownMenu.Item>Subscription</DropdownMenu.Item> -->
-                         <button on:click={()=>{ClipBoardCopy(item.Message)}} class="mx-3 my-3">Copy</button>
+                         <DropdownMenu.Item>
+                           <button on:click={()=>{ClipBoardCopy(item.Message)}}>Copy</button>
+                        </DropdownMenu.Item>
+                         <!-- <DropdownMenu.Item on:click={()=>{ClipBoardCopy(item.Message)}}>Copy</DropdownMenu.Item> -->
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
                        </DropdownMenu.Group>
                      </DropdownMenu.Content>
