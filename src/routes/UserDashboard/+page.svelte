@@ -100,7 +100,7 @@
             IsConnected = true
             ConnectionType = "Socket"
             socket.emit("Requestanotheraccept",{msg:"Success",UserID:AnotherID,AnotherID:UserID})
-            Swal.fire({icon:"success",title:`Connection has been established with ${AnotherID}`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+            Swal.fire({icon:"success",html:`<strong>Connection has been established with <b>${AnotherID}</b> under SOCKET Connection</strong>`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
          }
       })
       socket.on('RequestUsercallback', (data:any) => {
@@ -217,7 +217,7 @@
                conn = peer.connect(AnotherID)
                conn.on("open",function(){
                   IsConnected = true
-                  Swal.fire({icon:"success",title:`Connection has been established with ${AnotherID}`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+                  Swal.fire({icon:"success",html:`<strong>Connection has been established with <b>${AnotherID}</b> under PEER Connection</strong>`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
                })
             }
             else if(data.message == "CHATLEAVECODE"){
