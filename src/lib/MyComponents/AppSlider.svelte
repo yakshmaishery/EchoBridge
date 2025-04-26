@@ -111,14 +111,14 @@
                   ChangeWindow(item.window)
                 }
                 else{
-                  Swal.fire({icon:"error",title:`Current Connection type is not allowed for this feature to access.`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+                  Swal.fire({icon:"error",title:`Current Connection type is not allowed for this feature to access.`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
                 }
               }
               else if(item.window == "Home" || item.window == "ScreenRecord"){
                 ChangeWindow(item.window)
               }
               else{
-                Swal.fire({icon:"error",title:`You need to create connection first with another person!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+                Swal.fire({icon:"error",title:`You need to create connection first with another person!`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
               }
             }}>
             <item.icon />
