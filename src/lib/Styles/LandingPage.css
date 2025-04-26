@@ -149,6 +149,10 @@ body {
   color: #555;
   font-weight: 500;
 }
+.nav a:hover{
+  color: #3498db;
+  text-decoration: underline;
+}
 
 /* Responsive Navigation */
 .menu-toggle {
