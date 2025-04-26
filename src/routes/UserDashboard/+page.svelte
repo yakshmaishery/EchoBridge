@@ -75,12 +75,24 @@
    });
 
    onMount(() => {
-      socket = io(ServerAPI); // Replace with your server's URL
+      let socket = io(ServerAPI); // Replace with your server's URL
       // Connect to Socket
       socket.on('connect', () => {
          console.warn(SocketURL)
          console.warn('Connected to the server');
       });
+
+      socket.on("disconnect",()=>{
+         if(ConnectionType == "Socket"){
+            location.href = "/"
+         }
+      })
+      
+      socket.on("connect_error",()=>{
+         if(ConnectionType == "Socket"){
+            location.href = "/"
+         }
+      })
 
       socket.on('Requestanother', (data:any) => {
          if(data.AnotherID == UserID){
@@ -95,8 +107,8 @@
          if(data.UserID == UserID){
             IsConnected = true
             ConnectionType = "Socket"
-            Swal.fire({icon:"success",title:"Connected successfully",confirmButtonColor: "green",timer:1500,showConfirmButton:false})
             Swal.close()
+            Swal.fire({icon:"success",title:"Connected successfully",confirmButtonColor: "green",timer:1500,showConfirmButton:false})
          }
       })
       socket.on('CHATLEAVECODEAnother', (data:any) => {
@@ -670,6 +682,11 @@
       Snippingtoolfilename = ""
       if(SnippingToolVideo){
          SnippingToolVideo.src = ''
+         let videouploader:any = document.getElementById("videouploader")
+         if(videouploader){
+            videouploader.src = ""
+            videouploader.value = ""
+         }
       }
    }
    // Capture Snipping tool
