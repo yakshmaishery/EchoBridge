@@ -89,3 +89,10 @@ pre{
 textarea {
    resize: none;
  }
+
+.copybutton{
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}

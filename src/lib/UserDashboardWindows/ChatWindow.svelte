@@ -3,7 +3,7 @@
    export let IsConnected = false
    export let ConversationLogMessages:{MessageType:string,Message:string,datetime:string,loginID:string}[] = []
    import { createEventDispatcher } from 'svelte';
-   import { Send,Ellipsis } from "@lucide/svelte";
+   import { Send,Ellipsis,Copy } from "@lucide/svelte";
    import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
    import { Textarea } from "$lib/components/ui/textarea/index.js";
    import "$lib/Styles/ChatWindowCSS.css"
@@ -26,7 +26,7 @@
                      <DropdownMenu.Content>
                        <DropdownMenu.Group>
                          <DropdownMenu.Item>
-                            <button on:click={()=>{ClipBoardCopy(item.Message)}} style="width:100%">Copy Chat</button>
+                            <button on:click={()=>{ClipBoardCopy(item.Message)}} class="copybutton">Copy Chat <Copy/></button>
                            </DropdownMenu.Item>
                         <DropdownMenu.Separator />
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
@@ -44,7 +44,7 @@
                      <DropdownMenu.Content>
                        <DropdownMenu.Group>
                          <DropdownMenu.Item>
-                            <button on:click={()=>{ClipBoardCopy(item.Message)}} style="width:100%">Copy Chat</button>
+                            <button on:click={()=>{ClipBoardCopy(item.Message)}} class="copybutton">Copy Chat <Copy/></button>
                            </DropdownMenu.Item>
                         <DropdownMenu.Separator />
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
