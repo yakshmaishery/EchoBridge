@@ -32,7 +32,7 @@
                          <DropdownMenu.Item>Team</DropdownMenu.Item>
                          <DropdownMenu.Item>Subscription</DropdownMenu.Item> -->
                          <DropdownMenu.Item>
-                            <button on:click={()=>{ClipBoardCopy(item.Message)}}>Copy</button>
+                            <button on:click={()=>{ClipBoardCopy(item.Message)}} style="width:100%">Copy</button>
                          </DropdownMenu.Item>
                          <!-- <DropdownMenu.Item on:click={()=>{ClipBoardCopy(item.Message)}}>Copy</DropdownMenu.Item> -->
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
@@ -56,7 +56,7 @@
                          <DropdownMenu.Item>Team</DropdownMenu.Item>
                          <DropdownMenu.Item>Subscription</DropdownMenu.Item> -->
                          <DropdownMenu.Item>
-                           <button on:click={()=>{ClipBoardCopy(item.Message)}}>Copy</button>
+                           <button on:click={()=>{ClipBoardCopy(item.Message)}} style="width:100%">Copy</button>
                         </DropdownMenu.Item>
                          <!-- <DropdownMenu.Item on:click={()=>{ClipBoardCopy(item.Message)}}>Copy</DropdownMenu.Item> -->
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
