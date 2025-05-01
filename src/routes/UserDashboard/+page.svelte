@@ -41,7 +41,7 @@
    const fileInfo:any = {};// file transfer list
    let Progressvalue = 0;
    let Progressmax = 0;
-   let downloadfileList:{filename:string,base64:string,filesize:string,datetime:string}[] = []
+   let downloadfileList:{filename:string,base64:string,filesize:string,datetime:string,filesendtype:string}[] = []
    let ConnectionType = "Peer"// Connection Type Peer/Socket
    let IsConnected:boolean = false// Connection is connected or not.
    let ServerAPI = SocketURL// Socket IO Server URL
@@ -166,7 +166,7 @@
       socket.on('endFileTransferAnother', (data:any) => {
          if(data.AnotherID == UserID){
             const received = new Blob(receivedBuffers[data.name]);
-            downloadfileList.push({filename:data.name,base64:URL.createObjectURL(received),filesize:Progressmax.toString(),datetime:new Date().toString()})
+            downloadfileList.push({filename:data.name,base64:URL.createObjectURL(received),filesize:Progressmax.toString(),datetime:new Date().toString(),filesendtype:"Received"})
             downloadfileList = downloadfileList
             Progressmax = 0
             Progressvalue = 0
@@ -299,7 +299,7 @@
          } 
          else if (msgtype === 'endFileTransfer') {
             const received = new Blob(receivedBuffers[data.name]);
-            downloadfileList.push({filename:data.name,base64:URL.createObjectURL(received),filesize:Progressmax.toString(),datetime:new Date().toString()})
+            downloadfileList.push({filename:data.name,base64:URL.createObjectURL(received),filesize:Progressmax.toString(),datetime:new Date().toString(),filesendtype:"Received"})
             downloadfileList = downloadfileList
             Progressmax = 0
             Progressvalue = 0
@@ -491,7 +491,7 @@
                   sendFile(e.target.files[0])
                   try {
                   let base64String:any = await fileToBase64(e.target.files[0]);
-                  downloadfileList.push({filename:e.target.files[0].name,base64:base64String,filesize:e.target.files[0].size,datetime:new Date().toString()})
+                  downloadfileList.push({filename:e.target.files[0].name,base64:base64String,filesize:e.target.files[0].size,datetime:new Date().toString(),filesendtype:"Send"})
                   downloadfileList = downloadfileList
                } catch (err) {
                   console.error('Error converting file:', err);
@@ -801,6 +801,7 @@
                <Table.Caption></Table.Caption>
                <Table.Header>
                  <Table.Row>
+                   <Table.Head class="w-[100px]">Received/Send</Table.Head>
                    <Table.Head class="w-[100px]">File name</Table.Head>
                    <Table.Head class="w-[100px]">File Size</Table.Head>
                    <Table.Head class="">timestamp</Table.Head>
@@ -810,6 +811,7 @@
                <Table.Body>
                  {#each downloadfileList as item}
                   <Table.Row>
+                     <Table.Cell class="font-medium">{item.filesendtype}</Table.Cell>
                      <Table.Cell class="font-medium">{item.filename}</Table.Cell>
                      <Table.Cell class="font-medium">{item.filesize} bytes</Table.Cell>
                      <Table.Cell class="font-medium">{item.datetime}</Table.Cell>
