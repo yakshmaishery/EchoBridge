@@ -22,6 +22,7 @@
    import ScreenRecorder from "$lib/UserDashboardWindows/ScreenRecorder.svelte";
    import SnippingtoolWindow from "$lib/UserDashboardWindows/SnippingtoolWindow.svelte";
    import { page } from '$app/stores';
+   import { Separator } from "$lib/components/ui/separator/index.js";
    let Window = "Home" // Current Window
    let UserID = "" // Current UserID 4 digit
 	let AnotherID = ""// Another UserID 4 digit
@@ -754,6 +755,7 @@
    <AppSidebar bind:Window bind:IsConnected bind:ConnectionType />
    <main style="width: 100%;">
      <Sidebar.Trigger />
+     <Separator class="" />
      <!-- Home Window -->
       <div style={`content-visibility:${Window=="Home"?"auto":"hidden"}`}>
          <HomeWindow bind:AnotherID bind:UserID on:ConnectwithUserFirst={ConnectwithUserFirst} on:LeaveConnection={LeaveConnection} bind:IsConnected/>
