@@ -21,6 +21,7 @@
    import fixWebmDuration from 'webm-duration-fix';
    import ScreenRecorder from "$lib/UserDashboardWindows/ScreenRecorder.svelte";
    import SnippingtoolWindow from "$lib/UserDashboardWindows/SnippingtoolWindow.svelte";
+   import { page } from '$app/stores';
    let Window = "Home" // Current Window
    let UserID = "" // Current UserID 4 digit
 	let AnotherID = ""// Another UserID 4 digit
@@ -50,6 +51,15 @@
    let RecordingFileName = ""
    let Snippingtoolfilename = ""
    const numbersOnlyNanoid = customAlphabet('0123456789', 4); // 4 digits
+   let PageloadsidebarOpen = true
+
+   if($page.url.searchParams.size){
+      let redirectWin:any = $page.url.searchParams.get("redirect")
+      if(redirectWin != ""){
+         Window = redirectWin
+         PageloadsidebarOpen = false
+      }
+   }
 
    // const shortdummyID = nanoid(4).toLowerCase() // Generate Random User ID
    const shortdummyID = numbersOnlyNanoid() // Generate Random User ID
@@ -740,7 +750,7 @@
   <svelte:head>
    <title>EchoBridge</title>
  </svelte:head>
- <Sidebar.Provider>
+ <Sidebar.Provider open={PageloadsidebarOpen}>
    <AppSidebar bind:Window bind:IsConnected bind:ConnectionType />
    <main style="width: 100%;">
      <Sidebar.Trigger />

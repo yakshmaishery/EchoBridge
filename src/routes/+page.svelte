@@ -1,6 +1,7 @@
 <script lang="ts">
    import '$lib/Styles/LandingPage.css'
    import {onMount} from 'svelte'
+   import {ClientURLdashboard} from '$lib/Stores'
    onMount(()=>{
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
@@ -37,6 +38,7 @@
     <nav class="nav" id="navMenu">
       <a href="#features">Features</a>
       <a href="#tech">Technology</a>
+      <a href="#about">About</a>
       <a href="#get-started">Get Started</a>
     </nav>
   </div>
@@ -89,6 +91,30 @@
     </div>
   </div>
 </section>
+
+<section id="about" class="about">
+  <div class="container">
+    <h2 class="lg:text-5xl font-bold">About EchoBridge</h2>
+    <div class="grid">
+      <div class="card-link">
+        <h3 class="lg:text-2xl font-bold">📘 Tutorial</h3>
+        <p>Step-by-step guides to help you start video calls, chat, and more.</p>
+        <a href={ClientURLdashboard+"?redirect=Tutorial"} target="_self">View Tutorial</a>
+      </div>
+      <div class="card-link">
+        <h3 class="lg:text-2xl font-bold">📞 Contact</h3>
+        <p>Need help or have feedback? Reach out to our support team.</p>
+        <a href={ClientURLdashboard+"?redirect=Contact"} target="_self">Contact Us</a>
+      </div>
+      <div class="card-link">
+        <h3 class="lg:text-2xl font-bold">📢 Notice</h3>
+        <p>Stay updated with the latest announcements and updates.</p>
+        <a href={ClientURLdashboard+"?redirect=Notice"} target="_self">View Notices</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <section id="get-started" class="cta">
   <div class="container">
