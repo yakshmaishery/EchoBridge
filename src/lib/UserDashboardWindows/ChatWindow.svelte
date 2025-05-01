@@ -20,21 +20,15 @@
          {#each ConversationLogMessages as item}   
             {#if item.MessageType != "Sender"}
                <div class="chat-bubble chat-left">
-                  <!-- <button on:click={()=>{navigator.clipboard.writeText(item.message)}}>📋</button> -->
                    <div class="dotbtn">
                   <DropdownMenu.Root>
                      <DropdownMenu.Trigger><Ellipsis/></DropdownMenu.Trigger>
                      <DropdownMenu.Content>
                        <DropdownMenu.Group>
-                         <!-- <DropdownMenu.GroupHeading>My Account</DropdownMenu.GroupHeading>
-                         <DropdownMenu.Separator />
-                         <DropdownMenu.Item>Billing</DropdownMenu.Item>
-                         <DropdownMenu.Item>Team</DropdownMenu.Item>
-                         <DropdownMenu.Item>Subscription</DropdownMenu.Item> -->
                          <DropdownMenu.Item>
-                            <button on:click={()=>{ClipBoardCopy(item.Message)}} style="width:100%">Copy</button>
-                         </DropdownMenu.Item>
-                         <!-- <DropdownMenu.Item on:click={()=>{ClipBoardCopy(item.Message)}}>Copy</DropdownMenu.Item> -->
+                            <button on:click={()=>{ClipBoardCopy(item.Message)}} style="width:100%">Copy Chat</button>
+                           </DropdownMenu.Item>
+                        <DropdownMenu.Separator />
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
                         </DropdownMenu.Group>
                      </DropdownMenu.Content>
@@ -44,21 +38,15 @@
                </div>
                {:else}
                <div class="chat-bubble chat-right">
-                  <!-- <button on:click={()=>{navigator.clipboard.writeText(item.message)}}>📋</button> -->
                   <div class="dotbtn">
                   <DropdownMenu.Root>
                      <DropdownMenu.Trigger class="chatcontrolbutton"><Ellipsis/></DropdownMenu.Trigger>
                      <DropdownMenu.Content>
                        <DropdownMenu.Group>
-                         <!-- <DropdownMenu.GroupHeading>My Account</DropdownMenu.GroupHeading>
-                         <DropdownMenu.Separator />
-                         <DropdownMenu.Item>Billing</DropdownMenu.Item>
-                         <DropdownMenu.Item>Team</DropdownMenu.Item>
-                         <DropdownMenu.Item>Subscription</DropdownMenu.Item> -->
                          <DropdownMenu.Item>
-                           <button on:click={()=>{ClipBoardCopy(item.Message)}} style="width:100%">Copy</button>
-                        </DropdownMenu.Item>
-                         <!-- <DropdownMenu.Item on:click={()=>{ClipBoardCopy(item.Message)}}>Copy</DropdownMenu.Item> -->
+                            <button on:click={()=>{ClipBoardCopy(item.Message)}} style="width:100%">Copy Chat</button>
+                           </DropdownMenu.Item>
+                        <DropdownMenu.Separator />
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
                        </DropdownMenu.Group>
                      </DropdownMenu.Content>
