@@ -23,6 +23,7 @@
    import SnippingtoolWindow from "$lib/UserDashboardWindows/SnippingtoolWindow.svelte";
    import { page } from '$app/stores';
    import { Separator } from "$lib/components/ui/separator/index.js";
+    import CanvasWindow from "$lib/UserDashboardWindows/CanvasWindow.svelte";
    let Window = "Home" // Current Window
    let UserID = "" // Current UserID 4 digit
 	let AnotherID = ""// Another UserID 4 digit
@@ -763,7 +764,7 @@
   <svelte:head>
    <title>EchoBridge</title>
  </svelte:head>
- <Sidebar.Provider open={PageloadsidebarOpen}>
+ <Sidebar.Provider open={PageloadsidebarOpen} onOpenChange={(e)=>{PageloadsidebarOpen = e}}>
    <AppSidebar bind:Window bind:IsConnected bind:ConnectionType />
    <main style="width: 100%;">
      <Sidebar.Trigger />
@@ -847,6 +848,10 @@
       <!-- Screen Recorder Window -->
       <div style={`content-visibility:${Window=="Snippingtool"?"auto":"hidden"}`}>
          <SnippingtoolWindow bind:videodata={SnippingToolVideo} bind:Snippingtoolfilename on:StartCapture={StartCapture} on:ResetCapture={ResetCapture} on:CaptureSnip={CaptureSnip}/>
+      </div>
+      <!-- Canvas Window -->
+      <div style={`content-visibility:${Window=="Canvas"?"auto":"hidden"}`}>
+         <CanvasWindow bind:PageloadsidebarOpen/>
       </div>
    </main>
  </Sidebar.Provider>
