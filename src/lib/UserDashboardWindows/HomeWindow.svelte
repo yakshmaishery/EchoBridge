@@ -8,7 +8,7 @@
    import { createEventDispatcher } from 'svelte';
    const dispatch = createEventDispatcher();
 </script>
-<div class="text-center">
+<div class="text-center my-10">
    <h2 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
       Welcome to EchoBridge
    </h2>
