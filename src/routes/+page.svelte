@@ -2,6 +2,7 @@
    import '$lib/Styles/LandingPage.css'
    import {onMount} from 'svelte'
    import {ClientURLdashboard} from '$lib/Stores'
+   import { ChevronUp } from "@lucide/svelte";
    onMount(()=>{
     const menuToggle = document.getElementById('menuToggle');
     const navMenu = document.getElementById('navMenu');
@@ -15,18 +16,29 @@
     }
 
     const header = document.querySelector('.header');
+    const scrollBtn = document.getElementById("scrollTopBtn");
     window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      if(header){
-        header.classList.add('scrolled');
-      }
-    } else {
-      if(header){
-        header.classList.remove('scrolled');
-      }
+        if (window.scrollY > 20) {
+          if(header){
+            header.classList.add('scrolled');
+          }
+          if(scrollBtn){
+            scrollBtn.style.display = "block";
+          }
+        } else {
+          if(header){
+            header.classList.remove('scrolled');
+          }
+          if(scrollBtn){
+            scrollBtn.style.display = "none";
+          }
+        }
+      });
+    })
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  });
-   })
 </script>
 <svelte:head>
   <title>EchoBridge</title>
@@ -130,3 +142,4 @@
     <p>&copy; 2025 EchoBridge. Built with ❤️ using PeerJS & Socket.IO</p>
   </div>
 </footer>
+<button id="scrollTopBtn" on:click={scrollToTop}><ChevronUp/></button>
