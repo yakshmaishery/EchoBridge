@@ -118,7 +118,7 @@
                 ChangeWindow(item.window)
               }
               else{
-                Swal.fire({icon:"error",title:`You need to create connection first with another person!`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
+                Swal.fire({icon:"error",title:`You need to create connection first with another person! to access ${item.title}`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
               }
             }}>
             <item.icon />
