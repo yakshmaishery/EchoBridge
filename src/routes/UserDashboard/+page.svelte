@@ -53,6 +53,7 @@
    let Snippingtoolfilename = ""
    const numbersOnlyNanoid = customAlphabet('0123456789', 4); // 4 digits
    let PageloadsidebarOpen = true
+   let CallbackofFiledownloaded = false
 
    if($page.url.searchParams.size){
       let redirectWin:any = $page.url.searchParams.get("redirect")
@@ -174,7 +175,13 @@
             delete fileInfo[data.name];
             if(Window!="File Transfer"){
                Swal.fire({icon:"success",title:"You have received an file go to File Transfer!",confirmButtonColor: "green",showConfirmButton:false,timer:3000})
+               socket.emit("endFileTransferAnotherCALLBACK",{msg:"Success",UserID:AnotherID,AnotherID:UserID})
             }
+         }
+      })
+      socket.on('endFileTransferUserCALLBACK', (data:any) => {
+         if(data.UserID == UserID){
+            CallbackofFiledownloaded = false
          }
       })
    })
@@ -307,7 +314,11 @@
             delete fileInfo[data.name];
             if(Window!="File Transfer"){
                Swal.fire({icon:"success",title:"You have received an file go to File Transfer!",confirmButtonColor: "green",showConfirmButton:false,timer:3000})
+               conn.send({type:"endFileTransferAnotherCALLBACK"})
             }
+         }
+         else if(msgtype == "endFileTransferAnotherCALLBACK"){
+            CallbackofFiledownloaded = false
          }
       })
    })
@@ -488,6 +499,7 @@
          if(e.target){
             if(e.target.files){
                if(e.target.files.length>0){
+                  CallbackofFiledownloaded = true
                   sendFile(e.target.files[0])
                   try {
                   let base64String:any = await fileToBase64(e.target.files[0]);
@@ -792,6 +804,9 @@
       <div style={`content-visibility:${Window=="FileTransfer"?"auto":"hidden"}`}>
          <div class="px-10 py-3">
             <input type="file" class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" on:change={(e)=>{filechange(e)}} />
+            {#if CallbackofFiledownloaded}
+               <b>File is still not downloaded in another side</b>
+            {/if}
          </div>
          {#if Progressmax != 0}
             <Progress value={Progressvalue} max={Progressmax} class="w-[95%] mx-3" />

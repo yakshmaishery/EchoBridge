@@ -99,17 +99,17 @@
       <div class="card-link">
         <h3 class="lg:text-2xl font-bold">📘 Tutorial</h3>
         <p>Step-by-step guides to help you start video calls, chat, and more.</p>
-        <a href={ClientURLdashboard+"?redirect=Tutorial"} target="_self">View Tutorial</a>
+        <a href={"/UserDashboard?redirect=Tutorial"} target="_self">View Tutorial</a>
       </div>
       <div class="card-link">
         <h3 class="lg:text-2xl font-bold">📞 Contact</h3>
         <p>Need help or have feedback? Reach out to our support team.</p>
-        <a href={ClientURLdashboard+"?redirect=Contact"} target="_self">Contact Us</a>
+        <a href={"/UserDashboard?redirect=Contact"} target="_self">Contact Us</a>
       </div>
       <div class="card-link">
         <h3 class="lg:text-2xl font-bold">📢 Notice</h3>
         <p>Stay updated with the latest announcements and updates.</p>
-        <a href={ClientURLdashboard+"?redirect=Notice"} target="_self">View Notices</a>
+        <a href={"/UserDashboard?redirect=Notice"} target="_self">View Notices</a>
       </div>
     </div>
   </div>
