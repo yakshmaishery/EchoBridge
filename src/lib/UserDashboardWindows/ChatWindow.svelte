@@ -3,7 +3,7 @@
    export let IsConnected = false
    export let ConversationLogMessages:{MessageType:string,Message:string,datetime:string,loginID:string}[] = []
    import { createEventDispatcher } from 'svelte';
-   import { Send,Ellipsis,Copy,ExternalLink } from "@lucide/svelte";
+   import { Send,Ellipsis,Copy,ExternalLink,Download } from "@lucide/svelte";
    import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
    import { Textarea } from "$lib/components/ui/textarea/index.js";
    import "$lib/Styles/ChatWindowCSS.css"
@@ -13,6 +13,7 @@
       navigator.clipboard.writeText(msg)
       Swal.fire({icon:"success",title:`Copied Message Successfully!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
    }
+   // check valid URL
    function isValidURL(text:string) {
    try {
       new URL(text);
@@ -21,9 +22,21 @@
       return false;
    }
    }
+   // Open URL
    function OpenURLanotherTab(urlstr:string){
       window.open(urlstr,"_blank")
    }
+
+   function downloadText(filename:string, text:string) {
+      const blob = new Blob([text], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = filename+".txt";
+      document.body.appendChild(link); // Needed for Firefox
+      link.click();
+      document.body.removeChild(link);
+   }
+
 </script>
 <div class="dark:text-white ChatWindow">
    <div class="chatbubblewindow" id="chatwindow">
@@ -38,6 +51,9 @@
                        <DropdownMenu.Group>
                            <DropdownMenu.Item>
                               <button on:click={()=>{ClipBoardCopy(item.Message)}} class="copybutton">Copy Chat <Copy/></button>
+                           </DropdownMenu.Item>
+                           <DropdownMenu.Item>
+                              <button on:click={()=>{downloadText(item.MessageType+" "+item.loginID+" "+item.datetime,item.Message)}} class="copybutton">Download chat <Download/></button>
                            </DropdownMenu.Item>
                            {#if isValidURL(item.Message)}
                               <DropdownMenu.Item>
@@ -61,6 +77,9 @@
                        <DropdownMenu.Group>
                          <DropdownMenu.Item>
                             <button on:click={()=>{ClipBoardCopy(item.Message)}} class="copybutton">Copy Chat <Copy/></button>
+                           </DropdownMenu.Item>
+                           <DropdownMenu.Item>
+                              <button on:click={()=>{downloadText(item.MessageType+" "+item.loginID+" "+item.datetime,item.Message)}} class="copybutton">Download chat <Download/></button>
                            </DropdownMenu.Item>
                            {#if isValidURL(item.Message)}
                               <DropdownMenu.Item>
