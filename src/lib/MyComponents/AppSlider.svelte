@@ -9,6 +9,15 @@
    import { Button } from "$lib/components/ui/button/index.js";
    import '$lib/Styles/AppSliderCSS.css'
     import Swal from 'sweetalert2';
+    function isMobileDevice() {
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isMobileUA = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      return isTouchDevice && isMobileUA;
+    }
+
+    let itemsDisableMobile = ["ShareScreen"]
+    let items2DisableMobile = ["ScreenRecord","Snippingtool","Canvas"]
+
    
    // Menu items.
    const items = [
@@ -105,32 +114,34 @@
       <Sidebar.Menu>
        {#each items as item (item.title)}
         <Sidebar.MenuItem>
-         <Sidebar.MenuButton class={item.window == Window?"menuitemsselect":"menuitems"}>
-          {#snippet child({ props })}
-           <a {...props} style="cursor: pointer;" on:click={()=>{
-              if(IsConnected){
-                if(ConnectionType == "Peer"){
-                  ChangeWindow(item.window)
+          {#if !isMobileDevice() || (!itemsDisableMobile.includes(item.window))} <!-- Check if mobile hide some menus -->
+            <Sidebar.MenuButton class={item.window == Window?"menuitemsselect":"menuitems"}>
+            {#snippet child({ props })}
+              <a {...props} style="cursor: pointer;" on:click={()=>{
+                if(IsConnected){
+                  if(ConnectionType == "Peer"){
+                    ChangeWindow(item.window)
+                  }
+                  else if(item.window != "ShareScreen" && item.window != "videocall"){
+                    ChangeWindow(item.window)
+                  }
+                  else{
+                    Swal.fire({icon:"error",title:`Current Connection type is not allowed for this feature to access.`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
+                  }
                 }
-                else if(item.window != "ShareScreen" && item.window != "videocall"){
+                else if(item.window == "Home" || item.window == "ScreenRecord"){
                   ChangeWindow(item.window)
                 }
                 else{
-                  Swal.fire({icon:"error",title:`Current Connection type is not allowed for this feature to access.`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
+                  Swal.fire({icon:"error",title:`You need to create connection first with another person! to access ${item.title}`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
                 }
-              }
-              else if(item.window == "Home" || item.window == "ScreenRecord"){
-                ChangeWindow(item.window)
-              }
-              else{
-                Swal.fire({icon:"error",title:`You need to create connection first with another person! to access ${item.title}`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
-              }
-            }}>
-            <item.icon />
-            <span>{item.title}</span>
-           </a>
-          {/snippet}
-         </Sidebar.MenuButton>
+              }}>
+              <item.icon />
+              <span>{item.title}</span>
+              </a>
+            {/snippet}
+            </Sidebar.MenuButton>
+          {/if}
         </Sidebar.MenuItem>
        {/each}
       </Sidebar.Menu>
@@ -169,6 +180,7 @@
       <Sidebar.Menu>
          {#each items2 as item (item.title)}
          <Sidebar.MenuItem>
+          {#if !isMobileDevice() || (!items2DisableMobile.includes(item.window))} <!-- Check if mobile hide some menus -->
           <Sidebar.MenuButton class={item.window == Window?"menuitemsselect":"menuitems"}>
            {#snippet child({ props })}
             <a {...props} style="cursor: pointer;" on:click={()=>{ChangeWindow(item.window)}}>
@@ -177,6 +189,7 @@
             </a>
            {/snippet}
           </Sidebar.MenuButton>
+          {/if}
          </Sidebar.MenuItem>
         {/each}
       </Sidebar.Menu>
