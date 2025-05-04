@@ -3,7 +3,7 @@
    export let IsConnected = false
    export let ConversationLogMessages:{MessageType:string,Message:string,datetime:string,loginID:string}[] = []
    import { createEventDispatcher } from 'svelte';
-   import { Send,Ellipsis,Copy } from "@lucide/svelte";
+   import { Send,Ellipsis,Copy,ExternalLink } from "@lucide/svelte";
    import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
    import { Textarea } from "$lib/components/ui/textarea/index.js";
    import "$lib/Styles/ChatWindowCSS.css"
@@ -12,6 +12,17 @@
    function ClipBoardCopy(msg:string){
       navigator.clipboard.writeText(msg)
       Swal.fire({icon:"success",title:`Copied Message Successfully!`,confirmButtonColor: "green",timer:1500,showConfirmButton:false})
+   }
+   function isValidURL(text:string) {
+   try {
+      new URL(text);
+      return true;
+   } catch (e) {
+      return false;
+   }
+   }
+   function OpenURLanotherTab(urlstr:string){
+      window.open(urlstr,"_blank")
    }
 </script>
 <div class="dark:text-white ChatWindow">
@@ -25,9 +36,14 @@
                      <DropdownMenu.Trigger><Ellipsis/></DropdownMenu.Trigger>
                      <DropdownMenu.Content>
                        <DropdownMenu.Group>
-                         <DropdownMenu.Item>
-                            <button on:click={()=>{ClipBoardCopy(item.Message)}} class="copybutton">Copy Chat <Copy/></button>
+                           <DropdownMenu.Item>
+                              <button on:click={()=>{ClipBoardCopy(item.Message)}} class="copybutton">Copy Chat <Copy/></button>
                            </DropdownMenu.Item>
+                           {#if isValidURL(item.Message)}
+                              <DropdownMenu.Item>
+                                 <button on:click={()=>{OpenURLanotherTab(item.Message)}} class="copybutton">open URL <ExternalLink/></button>
+                              </DropdownMenu.Item>
+                           {/if}
                         <DropdownMenu.Separator />
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
                         </DropdownMenu.Group>
@@ -46,6 +62,11 @@
                          <DropdownMenu.Item>
                             <button on:click={()=>{ClipBoardCopy(item.Message)}} class="copybutton">Copy Chat <Copy/></button>
                            </DropdownMenu.Item>
+                           {#if isValidURL(item.Message)}
+                              <DropdownMenu.Item>
+                                 <button on:click={()=>{OpenURLanotherTab(item.Message)}} class="copybutton">open URL <ExternalLink/></button>
+                              </DropdownMenu.Item>
+                           {/if}
                         <DropdownMenu.Separator />
                          <DropdownMenu.Item>{item.datetime}</DropdownMenu.Item>
                        </DropdownMenu.Group>
