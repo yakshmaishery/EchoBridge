@@ -89,8 +89,8 @@
     }
    ];
 
-   function ChangeWindow(win:string){
-      document.title = `EchoBridge - ${win}`
+   function ChangeWindow(win:string,title:string){
+      document.title = `EchoBridge - ${title}`
       Window = win
    }
   </script>
@@ -120,17 +120,17 @@
               <a {...props} style="cursor: pointer;" on:click={()=>{
                 if(IsConnected){
                   if(ConnectionType == "Peer"){
-                    ChangeWindow(item.window)
+                    ChangeWindow(item.window,item.title)
                   }
                   else if(item.window != "ShareScreen" && item.window != "videocall"){
-                    ChangeWindow(item.window)
+                    ChangeWindow(item.window,item.title)
                   }
                   else{
                     Swal.fire({icon:"error",title:`Current Connection type is not allowed for this feature to access.`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
                   }
                 }
                 else if(item.window == "Home" || item.window == "ScreenRecord"){
-                  ChangeWindow(item.window)
+                  ChangeWindow(item.window,item.title)
                 }
                 else{
                   Swal.fire({icon:"error",title:`You need to create connection first with another person! to access ${item.title}`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
@@ -183,7 +183,7 @@
           {#if !isMobileDevice() || (!items2DisableMobile.includes(item.window))} <!-- Check if mobile hide some menus -->
           <Sidebar.MenuButton class={item.window == Window?"menuitemsselect":"menuitems"}>
            {#snippet child({ props })}
-            <a {...props} style="cursor: pointer;" on:click={()=>{ChangeWindow(item.window)}}>
+            <a {...props} style="cursor: pointer;" on:click={()=>{ChangeWindow(item.window,item.title)}}>
              <item.icon />
              <span>{item.title}</span>
             </a>
@@ -205,7 +205,7 @@
          <Sidebar.MenuItem>
           <Sidebar.MenuButton class={item.window == Window?"menuitemsselect":"menuitems"}>
            {#snippet child({ props })}
-            <a {...props} style="cursor: pointer;" on:click={()=>{ChangeWindow(item.window)}}>
+            <a {...props} style="cursor: pointer;" on:click={()=>{ChangeWindow(item.window,item.title)}}>
              <item.icon />
              <span>{item.title}</span>
             </a>
