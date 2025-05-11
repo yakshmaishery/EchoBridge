@@ -60,7 +60,7 @@
       icon:Image
     }
     ,{
-      title:"Canvas",
+      title:"Image Canvas",
       window:"Canvas",
       icon:ImageUpscale
     }
