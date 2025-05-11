@@ -1,4 +1,6 @@
 .sessionmanagercontroler{
    display: flex;
    gap: 20px;
+   overflow-y: auto;
+   padding: 20px;
 }

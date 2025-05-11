@@ -96,6 +96,14 @@
           The other user will be prompted to download the file once received.
         </div>
       </div>
+      
+      <div class="section">
+        <h2 class="lg:text-2xl font-bold">8. Cookie Management</h2>
+        <div class="step">
+          <strong class="dark:text-white">Set default User ID:</strong>
+          Enter the 4 digit user id and click the "Save" button and reload the Page.
+        </div>
+      </div>
    
       <footer>
         &copy; 2025 EchoBridge. Secure. Simple. Seamless.

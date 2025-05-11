@@ -3,7 +3,6 @@
    import { enhance } from "$app/forms";
    import '$lib/Styles/SessionManagerCSS.css'
    import * as Alert from "$lib/components/ui/alert/index.js";
-   import {Info} from '@lucide/svelte/icons'
    let isValid:boolean = false
    function validate() {
     isValid = /^[a-zA-Z0-9]+$/.test(UserDeafaultID);
