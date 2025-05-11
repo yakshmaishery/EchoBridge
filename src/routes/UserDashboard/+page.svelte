@@ -385,7 +385,7 @@
               Swal.fire({icon:"warning",title:"Recording was cancelled",confirmButtonColor: "green"})
             }
             else{
-              Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+               Swal.fire({icon:"error",title:"Something went wrong!",html:`${e}`,confirmButtonColor: "green"})
             }
          })
          if(screenStream){
@@ -409,8 +409,8 @@
             }
          }
       }
-      catch{
-         Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+      catch(e){
+         Swal.fire({icon:"error",title:"Something went wrong!",html:`${e}`,confirmButtonColor: "green"})
       }
    }
 
@@ -544,7 +544,7 @@
                        Swal.fire({icon:"warning",title:"Recording was cancelled",confirmButtonColor: "green"})
                 }
                 else{
-                       Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+                  Swal.fire({icon:"error",title:"Something went wrong!",html:`${e}`,confirmButtonColor: "green"})
                 }
          })
          if(CameraStream){
@@ -562,8 +562,8 @@
             })
          }
       }
-      catch{
-         Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+      catch(e){
+         Swal.fire({icon:"error",title:"Something went wrong!",html:`${e}`,confirmButtonColor: "green"})
       }
    }
 
@@ -590,7 +590,7 @@
               Swal.fire({icon:"warning",title:"Recording was cancelled",confirmButtonColor: "green"})
             }
             else{
-              Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+               Swal.fire({icon:"error",title:"Something went wrong!",html:`${e}`,confirmButtonColor: "green"})
             }
          })
          if(screenStream){
@@ -611,8 +611,8 @@
                })
          }
       }
-      catch{
-         Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+      catch(e){
+         Swal.fire({icon:"error",title:"Something went wrong!",html:`${e}`,confirmButtonColor: "green"})
       }
    }
 
@@ -682,7 +682,7 @@
               Swal.fire({icon:"warning",title:"Recording was cancelled",confirmButtonColor: "green"})
             }
             else{
-              Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+               Swal.fire({icon:"error",title:"Something went wrong!",html:`${e}`,confirmButtonColor: "green"})
             }
          })
          if(screenStream){
@@ -703,8 +703,8 @@
             })
          }
       }
-      catch{
-         Swal.fire({icon:"error",title:"Something went wrong!",confirmButtonColor: "green"})
+      catch(e){
+         Swal.fire({icon:"error",title:"Something went wrong!",html:`${e}`,confirmButtonColor: "green"})
       }
    }
    // Reset Snipping tool
