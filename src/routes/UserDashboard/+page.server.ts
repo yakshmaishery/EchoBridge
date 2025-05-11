@@ -16,7 +16,7 @@ export const actions:Actions = {
       if(!AnotherIDDeafult){
         AnotherIDDeafult = ""
       }
-        cookies.set("UserIDDeafult",AnotherIDDeafult.toString(),{
+        cookies.set("UserIDDeafult",AnotherIDDeafult.toString().toLowerCase(),{
             path: '/',
             httpOnly: true,
             sameSite: 'strict',
