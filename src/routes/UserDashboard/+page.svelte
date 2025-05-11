@@ -595,10 +595,6 @@
          })
          if(screenStream){
             // @ts-ignore
-            if(ConnectionType == "Peer"){
-               // peer.call(AnotherID,screenStream)
-               // conn.send({type:"ShareScreen"})
-               // ScreenOpen =true
                const mediarecorder = new MediaRecorder(screenStream)
                mediarecorder.start()
                mediarecorder.addEventListener("stop",()=>{
@@ -613,10 +609,6 @@
                      // videodata.src = URL.createObjectURL(e.data)
                   }
                })
-            }
-            else{
-               Swal.fire({icon:"error",title:"Share Screen is not supported in this connection type!",confirmButtonColor: "green"})
-            }
          }
       }
       catch{
