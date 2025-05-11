@@ -1,4 +1,5 @@
 <script lang="ts">
+   export let data
    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
    import AppSidebar from "$lib/MyComponents/AppSlider.svelte";
    import ChatWindow from "$lib/UserDashboardWindows/ChatWindow.svelte";
@@ -23,7 +24,8 @@
    import SnippingtoolWindow from "$lib/UserDashboardWindows/SnippingtoolWindow.svelte";
    import { page } from '$app/stores';
    import { Separator } from "$lib/components/ui/separator/index.js";
-    import CanvasWindow from "$lib/UserDashboardWindows/CanvasWindow.svelte";
+   import CanvasWindow from "$lib/UserDashboardWindows/CanvasWindow.svelte";
+   import SessionManagement from "$lib/UserDashboardWindows/SessionManagement.svelte";
    let Window = "Home" // Current Window
    let UserID = "" // Current UserID 4 digit
 	let AnotherID = ""// Another UserID 4 digit
@@ -65,7 +67,11 @@
    }
 
    // const shortdummyID = nanoid(4).toLowerCase() // Generate Random User ID
-   const shortdummyID = numbersOnlyNanoid() // Generate Random User ID
+   let shortdummyID = numbersOnlyNanoid() // Generate Random User ID
+   if(data.UserIDDeafult){
+      console.warn("data.UserIDDeafult",data.UserIDDeafult)
+      shortdummyID = data.UserIDDeafult
+   }
    var peer = new Peer(shortdummyID,{secure:true,config: {
       iceServers: [
          {
@@ -844,6 +850,10 @@
       <!-- Canvas Window -->
       <div style={`content-visibility:${Window=="Canvas"?"auto":"hidden"}`}>
          <CanvasWindow bind:PageloadsidebarOpen/>
+      </div>
+      <!-- Session Manager -->
+      <div style={`content-visibility:${Window=="SessionManager"?"auto":"hidden"}`}>
+         <SessionManagement bind:UserDeafaultID={data.UserIDDeafult}/>
       </div>
    </main>
  </Sidebar.Provider>
