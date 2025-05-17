@@ -91,7 +91,6 @@
          location.reload()
       }
       else{
-         Swal.fire({icon:"error",title:"PEER CONNECTION:- "+err.type,confirmButtonColor: "green"})
          setTimeout(() => {
             if(ConnectionType == "Peer"){
                if(IsConnected){
@@ -99,6 +98,7 @@
                }
             }
          }, 300);
+         Swal.fire({icon:"error",title:"PEER CONNECTION:- "+err.type,confirmButtonColor: "green"})
       }
    });
 
