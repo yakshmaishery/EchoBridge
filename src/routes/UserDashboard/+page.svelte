@@ -802,7 +802,7 @@
       <!-- File Transfer Window -->
       <div style={`content-visibility:${Window=="FileTransfer"?"auto":"hidden"}`}>
          <div class="px-10 py-3">
-            <input type="file" class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" on:change={(e)=>{filechange(e)}} />
+            <input type="file" class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" on:change={(e)=>{filechange(e)}} disabled={CallbackofFiledownloaded} />
             {#if CallbackofFiledownloaded}
                <b>File is still not downloaded in another side</b>
             {/if}
