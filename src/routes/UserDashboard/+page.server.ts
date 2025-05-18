@@ -1,10 +1,13 @@
 import type {redirect, Action, Actions} from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'; 
 
-export const load: PageServerLoad = async ({ cookies }) => {
-    const UserIDDeafult = cookies.get("UserIDDeafult")
+export const load: PageServerLoad = async ({ cookies,fetch }) => {
+  const UserIDDeafult = cookies.get("UserIDDeafult")
+  const res = await fetch("https://api64.ipify.org/?format=json")
+  const ip = await res.json()
 	return {
-		UserIDDeafult:UserIDDeafult?.toString()
+		UserIDDeafult:UserIDDeafult?.toString(),
+    ip:ip.ip
 	};
 };
 

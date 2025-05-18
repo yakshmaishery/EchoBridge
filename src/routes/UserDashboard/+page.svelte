@@ -58,6 +58,7 @@
    let PageloadsidebarOpen = true
    let CallbackofFiledownloaded = false
    let Windowtitle = ""
+   let CurrentIP:string = data.ip
 
    if($page.url.searchParams.size){
       let redirectWin:any = $page.url.searchParams.get("redirect")
@@ -772,7 +773,11 @@
    <main style="width: 100%;">
       <div style="display: flex;align-items: center;">
          <Sidebar.Trigger />
-         <h3 class="lg:text-2xl font-bold">{Windowtitle}</h3>
+         {#if Windowtitle != ""}
+            <h3 class="lg:text-2xl font-bold">{CurrentIP} - {Windowtitle}</h3>
+            {:else}
+            <h3 class="lg:text-2xl font-bold">{CurrentIP}</h3>
+         {/if}
       </div>
      <Separator class="" />
      <!-- Home Window -->
