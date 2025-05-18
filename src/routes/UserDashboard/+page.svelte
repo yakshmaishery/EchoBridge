@@ -57,6 +57,7 @@
    const numbersOnlyNanoid = customAlphabet('0123456789', 4); // 4 digits
    let PageloadsidebarOpen = true
    let CallbackofFiledownloaded = false
+   let Windowtitle = ""
 
    if($page.url.searchParams.size){
       let redirectWin:any = $page.url.searchParams.get("redirect")
@@ -765,7 +766,10 @@
  <Sidebar.Provider open={PageloadsidebarOpen} onOpenChange={(e)=>{PageloadsidebarOpen = e}}>
    <AppSidebar bind:Window bind:IsConnected bind:ConnectionType />
    <main style="width: 100%;">
-     <Sidebar.Trigger />
+      <div style="display: flex;align-items: center;">
+         <Sidebar.Trigger />
+         <h3 class="lg:text-2xl font-bold">{Windowtitle}</h3>
+      </div>
      <Separator class="" />
      <!-- Home Window -->
       <div style={`content-visibility:${Window=="Home"?"auto":"hidden"}`}>
@@ -853,7 +857,7 @@
       </div>
       <!-- Session Manager -->
       <div style={`content-visibility:${Window=="SessionManager"?"auto":"hidden"}`}>
-         <SessionManagement bind:UserDeafaultID={data.UserIDDeafult}/>
+         <SessionManagement bind:UserDeafaultID={data.UserIDDeafult} bind:Windowtitle/>
       </div>
    </main>
  </Sidebar.Provider>
