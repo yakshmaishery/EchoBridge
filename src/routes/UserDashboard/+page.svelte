@@ -130,6 +130,7 @@
             ConnectionType = "Socket"
             socket.emit("Requestanotheraccept",{msg:"Success",UserID:AnotherID,AnotherID:UserID})
             Swal.fire({icon:"success",html:`<strong>Connection has been established with <b>${AnotherID}</b> under SOCKET Connection</strong>`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
+            Windowtitle = AnotherID
          }
       })
       socket.on('RequestUsercallback', (data:any) => {
@@ -138,6 +139,7 @@
             ConnectionType = "Socket"
             Swal.close()
             Swal.fire({icon:"success",title:"Connected successfully",confirmButtonColor: "green",timer:3000,showConfirmButton:false})
+            Windowtitle = AnotherID
          }
       })
       socket.on('CHATLEAVECODEAnother', (data:any) => {
@@ -216,6 +218,7 @@
                ConnectionType = "Peer"
                conn.send({type:"text",message:"jhzxkdvbuyizxv"})
                Swal.fire({icon:"success",title:"Connected successfully",confirmButtonColor: "green",timer:3000,showConfirmButton:false})
+               Windowtitle = AnotherID
             })
             conn.on('error', (err:any) => {
                Swal.fire({icon:"error",title:err.type,confirmButtonColor: "green"})
@@ -253,6 +256,7 @@
                conn.on("open",function(){
                   IsConnected = true
                   Swal.fire({icon:"success",html:`<strong>Connection has been established with <b>${AnotherID}</b> under PEER Connection</strong>`,confirmButtonColor: "green",timer:3000,showConfirmButton:false})
+                  Windowtitle = AnotherID
                })
             }
             else if(data.message == "CHATLEAVECODE"){
