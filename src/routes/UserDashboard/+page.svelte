@@ -773,11 +773,7 @@
    <main style="width: 100%;">
       <div style="display: flex;align-items: center;">
          <Sidebar.Trigger />
-         {#if Windowtitle != ""}
-            <h3 class="lg:text-2xl font-bold">{CurrentIP} - {Windowtitle}</h3>
-            {:else}
-            <h3 class="lg:text-2xl font-bold">{CurrentIP}</h3>
-         {/if}
+         <h3 class="lg:text-2xl font-bold">{Windowtitle}</h3>
       </div>
      <Separator class="" />
      <!-- Home Window -->
@@ -810,7 +806,7 @@
       </div>
       <!-- Connection Window -->
       <div style={`content-visibility:${Window=="ConnectionWindow"?"auto":"hidden"}`}>
-         <ConnectionWIndow bind:ConnectionType bind:IsConnected/>
+         <ConnectionWIndow bind:ConnectionType bind:IsConnected bind:CurrentIP/>
       </div>
       <!-- File Transfer Window -->
       <div style={`content-visibility:${Window=="FileTransfer"?"auto":"hidden"}`}>
