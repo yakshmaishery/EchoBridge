@@ -3,7 +3,7 @@
    export let IsConnected = false
    export let ConnectionType = ""
 
-   import {Home,MessageSquareMore,Video,CloudUpload,Sun,Moon,Landmark,Contact,Bell,Cable,Monitor,Cctv,Image,ImageUpscale,Cookie} from '@lucide/svelte/icons'
+   import {Home,MessageSquareMore,Video,CloudUpload,Sun,Moon,Landmark,Contact,Bell,Cable,Monitor,Cctv,Image,ImageUpscale,Cookie,FileJson} from '@lucide/svelte/icons'
    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
    import { toggleMode } from "mode-watcher";
    import { Button } from "$lib/components/ui/button/index.js";
@@ -68,6 +68,11 @@
       title:"Image Canvas",
       window:"Canvas",
       icon:ImageUpscale
+    }
+    ,{
+      title:"Formatter",
+      window:"FORMATTER",
+      icon:FileJson
     }
    ]
    // Menu items.

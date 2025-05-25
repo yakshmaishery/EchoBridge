@@ -26,6 +26,7 @@
    import { Separator } from "$lib/components/ui/separator/index.js";
    import CanvasWindow from "$lib/UserDashboardWindows/CanvasWindow.svelte";
    import SessionManagement from "$lib/UserDashboardWindows/SessionManagement.svelte";
+    import FormatterWindow from "$lib/UserDashboardWindows/FormatterWindow.svelte";
    let Window = "Home" // Current Window
    let UserID = "" // Current UserID 4 digit
 	let AnotherID = ""// Another UserID 4 digit
@@ -866,6 +867,10 @@
       <!-- Session Manager -->
       <div style={`content-visibility:${Window=="SessionManager"?"auto":"hidden"}`}>
          <SessionManagement bind:UserDeafaultID={data.UserIDDeafult} bind:Windowtitle/>
+      </div>
+      <!-- FORMATTER Window -->
+      <div style={`content-visibility:${Window=="FORMATTER"?"auto":"hidden"}`}>
+         <FormatterWindow/>
       </div>
    </main>
  </Sidebar.Provider>
