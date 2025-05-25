@@ -178,7 +178,7 @@
       socket.on('endFileTransferAnother', (data:any) => {
          if(data.AnotherID == UserID){
             const received = new Blob(receivedBuffers[data.name]);
-            downloadfileList.push({filename:data.name,base64:URL.createObjectURL(received),filesize:Progressmax.toString(),datetime:new Date().toString(),filesendtype:"Received"})
+            downloadfileList.push({filename:data.name,base64:URL.createObjectURL(received),filesize:bytesToKB(Progressmax.toString()),datetime:new Date().toString(),filesendtype:"Received"})
             downloadfileList = downloadfileList
             Progressmax = 0
             Progressvalue = 0
@@ -319,7 +319,7 @@
          } 
          else if (msgtype === 'endFileTransfer') {
             const received = new Blob(receivedBuffers[data.name]);
-            downloadfileList.push({filename:data.name,base64:URL.createObjectURL(received),filesize:Progressmax.toString(),datetime:new Date().toString(),filesendtype:"Received"})
+            downloadfileList.push({filename:data.name,base64:URL.createObjectURL(received),filesize:bytesToKB(Progressmax.toString()),datetime:new Date().toString(),filesendtype:"Received"})
             downloadfileList = downloadfileList
             Progressmax = 0
             Progressvalue = 0
@@ -516,7 +516,7 @@
                   sendFile(e.target.files[0])
                   try {
                   let base64String:any = await fileToBase64(e.target.files[0]);
-                  downloadfileList.push({filename:e.target.files[0].name,base64:base64String,filesize:e.target.files[0].size,datetime:new Date().toString(),filesendtype:"Send"})
+                  downloadfileList.push({filename:e.target.files[0].name,base64:base64String,filesize:bytesToKB(e.target.files[0].size),datetime:new Date().toString(),filesendtype:"Send"})
                   downloadfileList = downloadfileList
                } catch (err) {
                   console.error('Error converting file:', err);
@@ -764,6 +764,9 @@
          }
       }
    }
+   function bytesToKB(bytes:any) {
+      return (bytes / 1024).toFixed(2);
+   }
  </script>
   <svelte:head>
    <title>EchoBridge</title>
@@ -836,7 +839,7 @@
                   <Table.Row>
                      <Table.Cell class="font-medium">{item.filesendtype}</Table.Cell>
                      <Table.Cell class="font-medium">{item.filename}</Table.Cell>
-                     <Table.Cell class="font-medium">{item.filesize} bytes</Table.Cell>
+                     <Table.Cell class="font-medium">{item.filesize} KB</Table.Cell>
                      <Table.Cell class="font-medium">{item.datetime}</Table.Cell>
                      <Table.Cell class="text-right">
                      <button class="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md" 
