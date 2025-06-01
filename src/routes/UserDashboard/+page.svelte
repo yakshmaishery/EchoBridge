@@ -97,13 +97,21 @@
          setTimeout(() => {
             if(ConnectionType == "Peer"){
                if(IsConnected){
-                  location.reload()
+                  location.href = "/"
                }
             }
          }, 300);
          Swal.fire({icon:"error",title:"PEER CONNECTION:- "+err.type,confirmButtonColor: "green"})
       }
    });
+
+   peer.on("disconnected",()=>{
+      if(ConnectionType == "Peer"){
+         if(IsConnected){
+            location.href = "/"
+         }
+      }
+   })
 
    onMount(() => {
       socket = io(ServerAPI); // Replace with your server's URL
@@ -227,6 +235,13 @@
             });
             conn.on("iceStateChanged",(state:any)=>{
                console.warn("iceStateChanged",state)
+               if(state == "disconnected"){
+                  if(ConnectionType == "Peer"){
+                     if(IsConnected){
+                        location.href = "/"
+                     }
+                  }
+               }
             })
             setTimeout(() => {
                if(!IsConnected){
