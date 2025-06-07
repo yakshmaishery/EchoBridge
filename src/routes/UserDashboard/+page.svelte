@@ -59,7 +59,8 @@
    let PageloadsidebarOpen = true
    let CallbackofFiledownloaded = false
    let Windowtitle = ""
-   let CurrentIP:string = data.ip
+   // let CurrentIP:string = data.ip
+   let CurrentIP:string = ""
 
    if($page.url.searchParams.size){
       let redirectWin:any = $page.url.searchParams.get("redirect")
@@ -204,6 +205,7 @@
             CallbackofFiledownloaded = false
          }
       })
+      getIP()
    })
 
    // Connect with another person
@@ -782,6 +784,11 @@
    }
    function bytesToKB(bytes:any) {
       return (bytes / 1024).toFixed(2);
+   }
+   async function getIP(){
+      const res = await fetch("https://api64.ipify.org/?format=json")
+      const ip = await res.json()
+      CurrentIP = ip.ip
    }
  </script>
   <svelte:head>
